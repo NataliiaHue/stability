@@ -1,0 +1,2 @@
+turk1303	Turkic, Common Turkic
+midd1372	Koreanic, Middle Korean

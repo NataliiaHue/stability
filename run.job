@@ -1,0 +1,6 @@
+#!/bin/sh
+#SBATCH --job-name nataliia
+#SBATCH --get-user-env
+#SBATCH --output run.%j.log
+
+R CMD BATCH d_for_all_languages.R

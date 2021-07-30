@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" required="BEAST v2.5.1" version="2.5">
+
+
+<data id="beast" dataType="standard" name="alignment">
+    <sequence id="seq_anat1259" spec="Sequence" taxon="anat1259" totalcount="2" value="0"/>
+    <sequence id="seq_bash1264" spec="Sequence" taxon="bash1264" totalcount="2" value="0"/>
+    <sequence id="seq_berj1234" spec="Sequence" taxon="berj1234" totalcount="2" value="0"/>
+    <sequence id="seq_bona1250" spec="Sequence" taxon="bona1250" totalcount="2" value="0"/>
+    <sequence id="seq_cent2126" spec="Sequence" taxon="cent2126" totalcount="2" value="0"/>
+    <sequence id="seq_chag1247" spec="Sequence" taxon="chag1247" totalcount="2" value="0"/>
+    <sequence id="seq_chuv1255" spec="Sequence" taxon="chuv1255" totalcount="2" value="0"/>
+    <sequence id="seq_crim1257" spec="Sequence" taxon="crim1257" totalcount="2" value="0"/>
+    <sequence id="seq_daur1238" spec="Sequence" taxon="daur1238" totalcount="2" value="0"/>
+    <sequence id="seq_dolg1241" spec="Sequence" taxon="dolg1241" totalcount="2" value="0"/>
+    <sequence id="seq_dong1285" spec="Sequence" taxon="dong1285" totalcount="2" value="0"/>
+    <sequence id="seq_east2337" spec="Sequence" taxon="east2337" totalcount="2" value="0"/>
+    <sequence id="seq_gaga1249" spec="Sequence" taxon="gaga1249" totalcount="2" value="0"/>
+    <sequence id="seq_halh1238" spec="Sequence" taxon="halh1238" totalcount="2" value="0"/>
+    <sequence id="seq_hate1238" spec="Sequence" taxon="hate1238" totalcount="2" value="0"/>
+    <sequence id="seq_huih1238" spec="Sequence" taxon="huih1238" totalcount="2" value="0"/>
+    <sequence id="seq_huzh1238" spec="Sequence" taxon="huzh1238" totalcount="2" value="0"/>
+    <sequence id="seq_ikem1235" spec="Sequence" taxon="ikem1235" totalcount="2" value="0"/>
+    <sequence id="seq_kara1467" spec="Sequence" taxon="kara1467" totalcount="2" value="0"/>
+    <sequence id="seq_kaza1248" spec="Sequence" taxon="kaza1248" totalcount="2" value="0"/>
+    <sequence id="seq_khak1248" spec="Sequence" taxon="khak1248" totalcount="2" value="0"/>
+    <sequence id="seq_kham1281" spec="Sequence" taxon="kham1281" totalcount="2" value="0"/>
+    <sequence id="seq_kore1280" spec="Sequence" taxon="kore1280" totalcount="2" value="0"/>
+    <sequence id="seq_manc1252" spec="Sequence" taxon="manc1252" totalcount="2" value="0"/>
+    <sequence id="seq_midd1351" spec="Sequence" taxon="midd1351" totalcount="2" value="0"/>
+    <sequence id="seq_midd1372" spec="Sequence" taxon="midd1372" totalcount="2" value="0"/>
+    <sequence id="seq_minh1238" spec="Sequence" taxon="minh1238" totalcount="2" value="0"/>
+    <sequence id="seq_mogh1245" spec="Sequence" taxon="mogh1245" totalcount="2" value="0"/>
+    <sequence id="seq_moma1245" spec="Sequence" taxon="moma1245" totalcount="2" value="0"/>
+    <sequence id="seq_nana1257" spec="Sequence" taxon="nana1257" totalcount="2" value="0"/>
+    <sequence id="seq_negi1245" spec="Sequence" taxon="negi1245" totalcount="2" value="0"/>
+    <sequence id="seq_noga1249" spec="Sequence" taxon="noga1249" totalcount="2" value="0"/>
+    <sequence id="seq_nort2690" spec="Sequence" taxon="nort2690" totalcount="2" value="0"/>
+    <sequence id="seq_nort2697" spec="Sequence" taxon="nort2697" totalcount="2" value="0"/>
+    <sequence id="seq_nort2935" spec="Sequence" taxon="nort2935" totalcount="2" value="0"/>
+    <sequence id="seq_nucl1643" spec="Sequence" taxon="nucl1643" totalcount="2" value="0"/>
+    <sequence id="seq_ogam1239" spec="Sequence" taxon="ogam1239" totalcount="2" value="0"/>
+    <sequence id="seq_oira1262" spec="Sequence" taxon="oira1262" totalcount="2" value="0"/>
+    <sequence id="seq_okin1246" spec="Sequence" taxon="okin1246" totalcount="2" value="0"/>
+    <sequence id="seq_oldj1239" spec="Sequence" taxon="oldj1239" totalcount="2" value="0"/>
+    <sequence id="seq_oldu1238" spec="Sequence" taxon="oldu1238" totalcount="2" value="0"/>
+    <sequence id="seq_ordo1245" spec="Sequence" taxon="ordo1245" totalcount="2" value="0"/>
+    <sequence id="seq_oroc1248" spec="Sequence" taxon="oroc1248" totalcount="2" value="0"/>
+    <sequence id="seq_orok1265" spec="Sequence" taxon="orok1265" totalcount="2" value="0"/>
+    <sequence id="seq_russ1264" spec="Sequence" taxon="russ1264" totalcount="2" value="0"/>
+    <sequence id="seq_shor1247" spec="Sequence" taxon="shor1247" totalcount="2" value="0"/>
+    <sequence id="seq_shur1243" spec="Sequence" taxon="shur1243" totalcount="2" value="0"/>
+    <sequence id="seq_sibe1251" spec="Sequence" taxon="sibe1251" totalcount="2" value="0"/>
+    <sequence id="seq_sout2954" spec="Sequence" taxon="sout2954" totalcount="2" value="0"/>
+    <sequence id="seq_tara1319" spec="Sequence" taxon="tara1319" totalcount="2" value="0"/>
+    <sequence id="seq_tata1255" spec="Sequence" taxon="tata1255" totalcount="2" value="0"/>
+    <sequence id="seq_torg1245" spec="Sequence" taxon="torg1245" totalcount="2" value="0"/>
+    <sequence id="seq_turk1303" spec="Sequence" taxon="turk1303" totalcount="2" value="0"/>
+    <sequence id="seq_turk1304" spec="Sequence" taxon="turk1304" totalcount="2" value="0"/>
+    <sequence id="seq_tuvi1240" spec="Sequence" taxon="tuvi1240" totalcount="2" value="0"/>
+    <sequence id="seq_udih1248" spec="Sequence" taxon="udih1248" totalcount="2" value="0"/>
+    <sequence id="seq_uigh1240" spec="Sequence" taxon="uigh1240" totalcount="2" value="0"/>
+    <sequence id="seq_ulch1241" spec="Sequence" taxon="ulch1241" totalcount="2" value="0"/>
+    <sequence id="seq_yaku1245" spec="Sequence" taxon="yaku1245" totalcount="2" value="0"/>
+    <sequence id="seq_yona1241" spec="Sequence" taxon="yona1241" totalcount="2" value="0"/>
+    <userDataType id="StandardData.0" spec="beast.evolution.datatype.StandardData" ambiguities="" nrOfStates="2"/>
+</data>
+
+<map name="Uniform" >beast.math.distributions.Uniform</map>
+<map name="Exponential" >beast.math.distributions.Exponential</map>
+<map name="LogNormal" >beast.math.distributions.LogNormalDistributionModel</map>
+<map name="Normal" >beast.math.distributions.Normal</map>
+<map name="Beta" >beast.math.distributions.Beta</map>
+<map name="Gamma" >beast.math.distributions.Gamma</map>
+<map name="LaplaceDistribution" >beast.math.distributions.LaplaceDistribution</map>
+<map name="prior" >beast.math.distributions.Prior</map>
+<map name="InverseGamma" >beast.math.distributions.InverseGamma</map>
+<map name="OneOnX" >beast.math.distributions.OneOnX</map>
+
+
+<run id="mcmc" spec="MCMC" chainLength="10000000">
+    <state id="state" storeEvery="5000">
+        <tree id="Tree.t:beast" name="stateNode">
+            <taxonset id="TaxonSet.beast" spec="TaxonSet">
+                <alignment idref="beast"/>
+            </taxonset>
+        </tree>
+        <parameter id="birthRate.t:beast" name="stateNode">1.0</parameter>
+        <parameter id="ucldStdev.c:beast" lower="0.0" name="stateNode">0.1</parameter>
+        <stateNode id="rateCategories.c:beast" spec="parameter.IntegerParameter" dimension="118">1</stateNode>
+    </state>
+
+    <init id="RandomTree.t:beast" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:beast" taxa="@beast">
+        <populationModel id="ConstantPopulation0.t:beast" spec="ConstantPopulation">
+            <parameter id="randomPopSize.t:beast" name="popSize">1.0</parameter>
+        </populationModel>
+    </init>
+
+    <distribution id="posterior" spec="util.CompoundDistribution">
+        <distribution id="prior" spec="util.CompoundDistribution">
+            <distribution id="YuleModel.t:beast" spec="beast.evolution.speciation.YuleModel" birthDiffRate="@birthRate.t:beast" tree="@Tree.t:beast"/>
+            <prior id="YuleBirthRatePrior.t:beast" name="distribution" x="@birthRate.t:beast">
+                <Uniform id="Uniform.1" name="distr"/>
+            </prior>
+            <prior id="ucldStdevPrior.c:beast" name="distribution" x="@ucldStdev.c:beast">
+                <Gamma id="Gamma.0" name="distr">
+                    <parameter id="RealParameter.3" estimate="false" name="alpha">0.5396</parameter>
+                    <parameter id="RealParameter.4" estimate="false" name="beta">0.3819</parameter>
+                </Gamma>
+            </prior>
+            
+            <distribution id="node1.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node1" spec="TaxonSet">
+                    <taxon id="cent2126" spec="Taxon"/>
+                    <taxon id="hate1238" spec="Taxon"/>
+                    <taxon id="ikem1235" spec="Taxon"/>
+                    <taxon id="nort2935" spec="Taxon"/>
+                    <taxon id="nucl1643" spec="Taxon"/>
+                    <taxon id="ogam1239" spec="Taxon"/>
+                    <taxon id="okin1246" spec="Taxon"/>
+                    <taxon id="oldj1239" spec="Taxon"/>
+                    <taxon id="shur1243" spec="Taxon"/>
+                    <taxon id="sout2954" spec="Taxon"/>
+                    <taxon id="tara1319" spec="Taxon"/>
+                    <taxon id="yona1241" spec="Taxon"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node2.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node2" spec="TaxonSet">
+                    <taxon id="kore1280" spec="Taxon"/>
+                    <taxon id="midd1372" spec="Taxon"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node3.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node3" spec="TaxonSet">
+                    <taxon id="bona1250" spec="Taxon"/>
+                    <taxon id="daur1238" spec="Taxon"/>
+                    <taxon id="dong1285" spec="Taxon"/>
+                    <taxon id="east2337" spec="Taxon"/>
+                    <taxon id="halh1238" spec="Taxon"/>
+                    <taxon id="huzh1238" spec="Taxon"/>
+                    <taxon id="kham1281" spec="Taxon"/>
+                    <taxon id="midd1351" spec="Taxon"/>
+                    <taxon id="minh1238" spec="Taxon"/>
+                    <taxon id="mogh1245" spec="Taxon"/>
+                    <taxon id="oira1262" spec="Taxon"/>
+                    <taxon id="ordo1245" spec="Taxon"/>
+                    <taxon id="russ1264" spec="Taxon"/>
+                    <taxon id="torg1245" spec="Taxon"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node4.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node4" spec="TaxonSet">
+                    <taxon id="berj1234" spec="Taxon"/>
+                    <taxon id="huih1238" spec="Taxon"/>
+                    <taxon id="manc1252" spec="Taxon"/>
+                    <taxon id="moma1245" spec="Taxon"/>
+                    <taxon id="nana1257" spec="Taxon"/>
+                    <taxon id="negi1245" spec="Taxon"/>
+                    <taxon id="oroc1248" spec="Taxon"/>
+                    <taxon id="orok1265" spec="Taxon"/>
+                    <taxon id="sibe1251" spec="Taxon"/>
+                    <taxon id="udih1248" spec="Taxon"/>
+                    <taxon id="ulch1241" spec="Taxon"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node5.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node5" spec="TaxonSet">
+                    <taxon id="anat1259" spec="Taxon"/>
+                    <taxon id="bash1264" spec="Taxon"/>
+                    <taxon id="chag1247" spec="Taxon"/>
+                    <taxon id="chuv1255" spec="Taxon"/>
+                    <taxon id="crim1257" spec="Taxon"/>
+                    <taxon id="dolg1241" spec="Taxon"/>
+                    <taxon id="gaga1249" spec="Taxon"/>
+                    <taxon id="kara1467" spec="Taxon"/>
+                    <taxon id="kaza1248" spec="Taxon"/>
+                    <taxon id="khak1248" spec="Taxon"/>
+                    <taxon id="noga1249" spec="Taxon"/>
+                    <taxon id="nort2690" spec="Taxon"/>
+                    <taxon id="nort2697" spec="Taxon"/>
+                    <taxon id="oldu1238" spec="Taxon"/>
+                    <taxon id="shor1247" spec="Taxon"/>
+                    <taxon id="tata1255" spec="Taxon"/>
+                    <taxon id="turk1303" spec="Taxon"/>
+                    <taxon id="turk1304" spec="Taxon"/>
+                    <taxon id="tuvi1240" spec="Taxon"/>
+                    <taxon id="uigh1240" spec="Taxon"/>
+                    <taxon id="yaku1245" spec="Taxon"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node6.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node6" spec="TaxonSet">
+                    <taxon idref="nucl1643"/>
+                    <taxon idref="oldj1239"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node7.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node7" spec="TaxonSet">
+                    <taxon idref="cent2126"/>
+                    <taxon idref="hate1238"/>
+                    <taxon idref="ikem1235"/>
+                    <taxon idref="nort2935"/>
+                    <taxon idref="ogam1239"/>
+                    <taxon idref="okin1246"/>
+                    <taxon idref="shur1243"/>
+                    <taxon idref="sout2954"/>
+                    <taxon idref="tara1319"/>
+                    <taxon idref="yona1241"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node10.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node10" spec="TaxonSet">
+                    <taxon idref="halh1238"/>
+                    <taxon idref="kham1281"/>
+                    <taxon idref="oira1262"/>
+                    <taxon idref="ordo1245"/>
+                    <taxon idref="russ1264"/>
+                    <taxon idref="torg1245"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node11.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node11" spec="TaxonSet">
+                    <taxon idref="bona1250"/>
+                    <taxon idref="dong1285"/>
+                    <taxon idref="east2337"/>
+                    <taxon idref="huzh1238"/>
+                    <taxon idref="minh1238"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node15.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node15" spec="TaxonSet">
+                    <taxon idref="nana1257"/>
+                    <taxon idref="oroc1248"/>
+                    <taxon idref="orok1265"/>
+                    <taxon idref="udih1248"/>
+                    <taxon idref="ulch1241"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node17.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node17" spec="TaxonSet">
+                    <taxon idref="berj1234"/>
+                    <taxon idref="huih1238"/>
+                    <taxon idref="moma1245"/>
+                    <taxon idref="negi1245"/>
+                    <taxon idref="sibe1251"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node19.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node19" spec="TaxonSet">
+                    <taxon idref="anat1259"/>
+                    <taxon idref="bash1264"/>
+                    <taxon idref="chag1247"/>
+                    <taxon idref="crim1257"/>
+                    <taxon idref="dolg1241"/>
+                    <taxon idref="gaga1249"/>
+                    <taxon idref="kara1467"/>
+                    <taxon idref="kaza1248"/>
+                    <taxon idref="khak1248"/>
+                    <taxon idref="noga1249"/>
+                    <taxon idref="nort2690"/>
+                    <taxon idref="nort2697"/>
+                    <taxon idref="oldu1238"/>
+                    <taxon idref="shor1247"/>
+                    <taxon idref="tata1255"/>
+                    <taxon idref="turk1303"/>
+                    <taxon idref="turk1304"/>
+                    <taxon idref="tuvi1240"/>
+                    <taxon idref="uigh1240"/>
+                    <taxon idref="yaku1245"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node22.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node22" spec="TaxonSet">
+                    <taxon idref="cent2126"/>
+                    <taxon idref="nort2935"/>
+                    <taxon idref="okin1246"/>
+                    <taxon idref="shur1243"/>
+                    <taxon idref="sout2954"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node23.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node23" spec="TaxonSet">
+                    <taxon idref="hate1238"/>
+                    <taxon idref="ikem1235"/>
+                    <taxon idref="ogam1239"/>
+                    <taxon idref="tara1319"/>
+                    <taxon idref="yona1241"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node24.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node24" spec="TaxonSet">
+                    <taxon idref="halh1238"/>
+                    <taxon idref="oira1262"/>
+                    <taxon idref="ordo1245"/>
+                    <taxon idref="russ1264"/>
+                    <taxon idref="torg1245"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node26.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node26" spec="TaxonSet">
+                    <taxon idref="bona1250"/>
+                    <taxon idref="dong1285"/>
+                    <taxon idref="huzh1238"/>
+                    <taxon idref="minh1238"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node28.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node28" spec="TaxonSet">
+                    <taxon idref="oroc1248"/>
+                    <taxon idref="udih1248"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node29.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node29" spec="TaxonSet">
+                    <taxon idref="nana1257"/>
+                    <taxon idref="orok1265"/>
+                    <taxon idref="ulch1241"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node30.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node30" spec="TaxonSet">
+                    <taxon idref="berj1234"/>
+                    <taxon idref="moma1245"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node31.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node31" spec="TaxonSet">
+                    <taxon idref="huih1238"/>
+                    <taxon idref="negi1245"/>
+                    <taxon idref="sibe1251"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node32.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node32" spec="TaxonSet">
+                    <taxon idref="khak1248"/>
+                    <taxon idref="shor1247"/>
+                    <taxon idref="tuvi1240"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node33.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node33" spec="TaxonSet">
+                    <taxon idref="bash1264"/>
+                    <taxon idref="crim1257"/>
+                    <taxon idref="kara1467"/>
+                    <taxon idref="kaza1248"/>
+                    <taxon idref="noga1249"/>
+                    <taxon idref="tata1255"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node34.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node34" spec="TaxonSet">
+                    <taxon idref="dolg1241"/>
+                    <taxon idref="yaku1245"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node35.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node35" spec="TaxonSet">
+                    <taxon idref="anat1259"/>
+                    <taxon idref="gaga1249"/>
+                    <taxon idref="nort2697"/>
+                    <taxon idref="turk1304"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node36.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node36" spec="TaxonSet">
+                    <taxon idref="chag1247"/>
+                    <taxon idref="nort2690"/>
+                    <taxon idref="oldu1238"/>
+                    <taxon idref="uigh1240"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node38.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node38" spec="TaxonSet">
+                    <taxon idref="nort2935"/>
+                    <taxon idref="okin1246"/>
+                    <taxon idref="sout2954"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node39.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node39" spec="TaxonSet">
+                    <taxon idref="cent2126"/>
+                    <taxon idref="shur1243"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node40.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node40" spec="TaxonSet">
+                    <taxon idref="hate1238"/>
+                    <taxon idref="yona1241"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node41.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node41" spec="TaxonSet">
+                    <taxon idref="ikem1235"/>
+                    <taxon idref="ogam1239"/>
+                    <taxon idref="tara1319"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node43.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node43" spec="TaxonSet">
+                    <taxon idref="halh1238"/>
+                    <taxon idref="oira1262"/>
+                    <taxon idref="ordo1245"/>
+                    <taxon idref="torg1245"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node44.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node44" spec="TaxonSet">
+                    <taxon idref="bona1250"/>
+                    <taxon idref="dong1285"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node45.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node45" spec="TaxonSet">
+                    <taxon idref="huzh1238"/>
+                    <taxon idref="minh1238"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node48.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node48" spec="TaxonSet">
+                    <taxon idref="orok1265"/>
+                    <taxon idref="ulch1241"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node52.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node52" spec="TaxonSet">
+                    <taxon idref="huih1238"/>
+                    <taxon idref="sibe1251"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node55.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node55" spec="TaxonSet">
+                    <taxon idref="khak1248"/>
+                    <taxon idref="shor1247"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node56.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node56" spec="TaxonSet">
+                    <taxon idref="bash1264"/>
+                    <taxon idref="tata1255"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node57.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node57" spec="TaxonSet">
+                    <taxon idref="kara1467"/>
+                    <taxon idref="kaza1248"/>
+                    <taxon idref="noga1249"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node63.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node63" spec="TaxonSet">
+                    <taxon idref="anat1259"/>
+                    <taxon idref="gaga1249"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node64.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node64" spec="TaxonSet">
+                    <taxon idref="chag1247"/>
+                    <taxon idref="nort2690"/>
+                    <taxon idref="uigh1240"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node67.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node67" spec="TaxonSet">
+                    <taxon idref="nort2935"/>
+                    <taxon idref="sout2954"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node75.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node75" spec="TaxonSet">
+                    <taxon idref="oira1262"/>
+                    <taxon idref="torg1245"/>
+                </taxonset>
+            </distribution>
+
+            <distribution id="node95.prior" spec="beast.math.distributions.MRCAPrior" monophyletic="true" tree="@Tree.t:beast">
+                <taxonset id="node95" spec="TaxonSet">
+                    <taxon idref="nort2690"/>
+                    <taxon idref="uigh1240"/>
+                </taxonset>
+            </distribution>
+        </distribution>
+
+        <distribution id="likelihood" spec="util.CompoundDistribution" useThreads="true">
+            <distribution id="treeLikelihood.beast" spec="ThreadedTreeLikelihood" data="@beast" tree="@Tree.t:beast">
+                <siteModel id="SiteModel.s:beast" spec="SiteModel">
+                    <parameter id="mutationRate.s:beast" estimate="false" name="mutationRate">1.0</parameter>
+                    <parameter id="gammaShape.s:beast" estimate="false" name="shape">1.0</parameter>
+                    <parameter id="proportionInvariant.s:beast" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
+                    <substModel id="MutationDeathModel.s:beast" spec="MutationDeathModel">
+                        <parameter id="deathprob.s:beast" estimate="false" name="deathprob">0.1</parameter>
+                        <frequencies id="freqs.s:beast" spec="Frequencies">
+                            <parameter id="RealParameter.1" dimension="2" name="frequencies">1.0 0.0</parameter>
+                        </frequencies>
+                    </substModel>
+                </siteModel>
+                <branchRateModel id="RelaxedClock.c:beast" spec="beast.evolution.branchratemodel.UCRelaxedClockModel" rateCategories="@rateCategories.c:beast" tree="@Tree.t:beast">
+                    <LogNormal id="LogNormalDistributionModel.c:beast" S="@ucldStdev.c:beast" meanInRealSpace="true" name="distr">
+                        <parameter id="RealParameter.2" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+                    </LogNormal>
+                    <parameter id="ucldMean.c:beast" estimate="false" name="clock.rate">1.0</parameter>
+                </branchRateModel>
+            </distribution>
+        </distribution>
+    </distribution>
+
+    <operator id="YuleBirthRateScaler.t:beast" spec="ScaleOperator" parameter="@birthRate.t:beast" scaleFactor="0.75" weight="3.0"/>
+
+    <operator id="YuleModelTreeScaler.t:beast" spec="ScaleOperator" scaleFactor="0.5" tree="@Tree.t:beast" weight="3.0"/>
+
+    <operator id="YuleModelTreeRootScaler.t:beast" spec="ScaleOperator" rootOnly="true" scaleFactor="0.5" tree="@Tree.t:beast" weight="3.0"/>
+
+    <operator id="YuleModelUniformOperator.t:beast" spec="Uniform" tree="@Tree.t:beast" weight="30.0"/>
+
+    <operator id="YuleModelSubtreeSlide.t:beast" spec="SubtreeSlide" tree="@Tree.t:beast" weight="15.0"/>
+
+    <operator id="YuleModelNarrow.t:beast" spec="Exchange" tree="@Tree.t:beast" weight="15.0"/>
+
+    <operator id="YuleModelWide.t:beast" spec="Exchange" isNarrow="false" tree="@Tree.t:beast" weight="3.0"/>
+
+    <operator id="YuleModelWilsonBalding.t:beast" spec="WilsonBalding" tree="@Tree.t:beast" weight="3.0"/>
+
+    <operator id="ucldStdevScaler.c:beast" spec="ScaleOperator" parameter="@ucldStdev.c:beast" scaleFactor="0.5" weight="3.0"/>
+
+    <operator id="CategoriesRandomWalk.c:beast" spec="IntRandomWalkOperator" parameter="@rateCategories.c:beast" weight="10.0" windowSize="1"/>
+
+    <operator id="CategoriesSwapOperator.c:beast" spec="SwapOperator" intparameter="@rateCategories.c:beast" weight="10.0"/>
+
+    <operator id="CategoriesUniform.c:beast" spec="UniformOperator" parameter="@rateCategories.c:beast" weight="10.0"/>
+
+    <logger id="tracelog" fileName="stability_covarion_relaxed.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
+        <log idref="posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+        <log idref="treeLikelihood.beast"/>
+        <log id="TreeHeight.t:beast" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:beast"/>
+        <log idref="YuleModel.t:beast"/>
+        <log idref="birthRate.t:beast"/>
+        <log idref="ucldStdev.c:beast"/>
+        <log id="rate.c:beast" spec="beast.evolution.branchratemodel.RateStatistic" branchratemodel="@RelaxedClock.c:beast" tree="@Tree.t:beast"/>
+    </logger>
+
+    <logger id="screenlog" logEvery="1000">
+        <log idref="posterior"/>
+        <log id="ESS.0" spec="util.ESS" arg="@posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+    </logger>
+
+    <logger id="treelog.t:beast" fileName="stability_covarion_relaxed.trees" logEvery="1000" mode="tree">
+        <log id="TreeWithMetaDataLogger.t:beast" spec="beast.evolution.tree.TreeWithMetaDataLogger" branchratemodel="@RelaxedClock.c:beast" tree="@Tree.t:beast"/>
+    </logger>
+
+</run>
+
+</beast>

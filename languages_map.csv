@@ -1,0 +1,61 @@
+short_name;full_name;iso;glottocode;latitude;longitude;family
+Azerbaij;Azerbaijani;azj;nort2697;42;46.47;Turkic
+Bashkir;Bashkir;bak;bash1264;53.60;56.56;Turkic
+EvenB;Beryozovka Even;eve;berj1234;67.13;156.59;Tungusic
+Bonan;Bonan;peh;bona1250;33;104;Mongolic
+Buriat;Buriat;bxr;russ1264;52.5;104.5;Mongolic
+Chagatai;Chagatai;chg;chag1247;39;57.89;Turkic
+Chuvash;Chuvash;chv;chuv1255;53;47.16;Turkic
+CrimTat;Crimean Tatar;crh;crim1257;46;35;Turkic
+Dagur;Dagur;dta;daur1238;49.00;126;Mongolic
+Dolgan;Dolgan;dlg;dolg1241;71.11;94.29;Turkic
+Dongxi;Dongxiang;sce;dong1285;36;110;Mongolic
+OJapan;Eastern Old Japanese;ojp;oldj1239;38;138;Japonic
+Evenki;Evenki;evn;sibe1251;68;100;Tungusic
+Gagauz;Gagauz;gag;gaga1249;43.5;29;Turkic
+Hateruma;Hateruma;rys;hate1238;22;123.78;Japonic
+Ikema;Ikema;mvi;ikem1235;22;133;Japonic
+Japan;Japanese;jpn;nucl1643;35;135;Japonic
+Kalmyk;Kalmyk;xal;torg1245;47;45.32;Mongolic
+KaraKalp;Kara-Kalpak;kaa;kara1467;40.5;63.32;Turkic
+Khakas;Khakas;kjh;khak1248;50.74;110;Turkic
+Khalaj;Khalaj;klj;turk1303;36;50;Turkic
+Khalha;Khalkha;khk;halh1238;48.32;106.29;Mongolic
+Khamnig;Khamnigal Mongol;Kham;kham1281;49.00;117.00;Mongolic
+Korean;Korean;kor;kore1280;37;127;Koreanic
+Manchu;Manchu;mnc;manc1252;46;126.56;Tungusic
+Mangghu;Mangghuer;mjg;minh1238;36;102;Mongolic
+MKorean;Middle Korean;MK;midd1372;39;130;Koreanic
+MMongol;Middle Mongol;xng;midd1351;46.5;111;Mongolic
+Moghol;Moghol;mhj;mogh1245;34.25;62.28;Mongolic
+EvenM;Moma Even;eve;moma1245;66.44;143.17;Tungusic
+Mongghul;Mongghul;mjg;huzh1238;38;103;Mongolic
+Nanai;Nanai;gld;nana1257;48;134.80;Tungusic
+Negidal;Negidal;neg;negi1245;54.5;134;Tungusic
+Nogai;Nogai;nog;noga1249;43.59;46.66;Turkic
+Uzbek;Northern Uzbek;uzn;nort2690;42;69.21;Turkic
+Ogami;Ogami;mvi;ogam1239;30;123;Japonic
+Oirat;Oirat;xal;oira1262;48;91.03;Mongolic
+Okinoerabu;Okinoerabu;okn;okin1246;27.3;135;Japonic
+OTurk;Old Turkic;oui;oldu1238;42.85;89.53;Turkic
+Ordos;Ordos;mvf;ordo1245;39;111;Mongolic
+Oroc;Oroch;oac;oroc1248;50.32;137;Tungusic
+Orok;Orok;oaa;orok1265;49;144;Tungusic
+EYughur;Shira Yughur;yuy;east2337;40;104;Mongolic
+Shor;Shor;cjs;shor1247;52.33;85.43;Turkic
+Shuri;Shuri;ryu;shur1243;23.5;129;Japonic
+Solon;Solon;evn;huih1238;51;119.78;Tungusic
+Tarama;Tarama;mvi;tara1319;24.66;128;Japonic
+Tatar;Tatar;tat;tata1255;51;51.00;Turkic
+Tsuken;Tsuken;ryu;cent2126;26.25;127.94;Japonic
+Turkish;Turkish;tur;anat1259;39.87;32.87;Turkic
+Turkmen;Turkmen;tuk;turk1304;37.09;59.18;Turkic
+Tuvan;Tuvan;tyv;tuvi1240;50;92.67;Turkic
+Udihe;Udihe;ude;udih1248;46;135.68;Tungusic
+Uighur;Uighur;uig;uigh1240;45;86;Turkic
+Ulch;Ulch;ulc;ulch1241;52.5;137;Tungusic
+Ura;Ura;ryn;nort2935;28.21;128;Japonic
+Yakut;Yakut;sah;yaku1245;61.70;133.98;Turkic
+Yonaguni;Yonaguni;yoi;yona1241;24;119;Japonic
+Yuwan;Yuwan;ams;sout2954;30;133;Japonic
+Kazakh;Kazakh;kaz;kaza1248;44;65.77;Turkic

@@ -1,0 +1,10 @@
+#!/bin/sh
+#SBATCH --job-name nataliia
+#SBATCH --get-user-env
+#SBATCH --nodes 1
+#SBATCH --oversubscribe
+#SBATCH --output asr-per-tree.%j-%A-%a.run
+#SBATCH --partition batch,batch2
+#SBATCH --array=1-1000
+
+Rscript asr-per-tree.R "${SLURM_ARRAY_TASK_ID}"

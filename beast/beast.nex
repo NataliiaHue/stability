@@ -1,0 +1,116 @@
+#NEXUS
+
+BEGIN DATA;
+    DIMENSIONS NTAX=60 NCHAR=1;
+    FORMAT DATATYPE=STANDARD SYMBOLS="10" GAP=- MISSING=?;
+MATRIX
+anat1259   0
+bash1264   0
+berj1234   0
+bona1250   0
+cent2126   0
+chag1247   0
+chuv1255   0
+crim1257   0
+daur1238   0
+dolg1241   0
+dong1285   0
+east2337   0
+gaga1249   0
+halh1238   0
+hate1238   0
+huih1238   0
+huzh1238   0
+ikem1235   0
+kara1467   0
+kaza1248   0
+khak1248   0
+kham1281   0
+kore1280   0
+manc1252   0
+midd1351   0
+midd1372   0
+minh1238   0
+mogh1245   0
+moma1245   0
+nana1257   0
+negi1245   0
+noga1249   0
+nort2690   0
+nort2697   0
+nort2935   0
+nucl1643   0
+ogam1239   0
+oira1262   0
+okin1246   0
+oldj1239   0
+oldu1238   0
+ordo1245   0
+oroc1248   0
+orok1265   0
+russ1264   0
+shor1247   0
+shur1243   0
+sibe1251   0
+sout2954   0
+tara1319   0
+tata1255   0
+torg1245   0
+turk1303   0
+turk1304   0
+tuvi1240   0
+udih1248   0
+uigh1240   0
+ulch1241   0
+yaku1245   0
+yona1241   0
+    ;
+END;
+
+
+BEGIN SETS;
+    taxaset node0 = anat1259 bash1264 berj1234 bona1250 cent2126 chag1247 chuv1255 crim1257 daur1238 dolg1241 dong1285 east2337 gaga1249 halh1238 hate1238 huih1238 huzh1238 ikem1235 kara1467 kaza1248 khak1248 kham1281 kore1280 manc1252 midd1351 midd1372 minh1238 mogh1245 moma1245 nana1257 negi1245 noga1249 nort2690 nort2697 nort2935 nucl1643 ogam1239 oira1262 okin1246 oldj1239 oldu1238 ordo1245 oroc1248 orok1265 russ1264 shor1247 shur1243 sibe1251 sout2954 tara1319 tata1255 torg1245 turk1303 turk1304 tuvi1240 udih1248 uigh1240 ulch1241 yaku1245 yona1241;
+    taxaset node1 = cent2126 hate1238 ikem1235 nort2935 nucl1643 ogam1239 okin1246 oldj1239 shur1243 sout2954 tara1319 yona1241;
+    taxaset node2 = kore1280 midd1372;
+    taxaset node3 = bona1250 daur1238 dong1285 east2337 halh1238 huzh1238 kham1281 midd1351 minh1238 mogh1245 oira1262 ordo1245 russ1264 torg1245;
+    taxaset node4 = berj1234 huih1238 manc1252 moma1245 nana1257 negi1245 oroc1248 orok1265 sibe1251 udih1248 ulch1241;
+    taxaset node5 = anat1259 bash1264 chag1247 chuv1255 crim1257 dolg1241 gaga1249 kara1467 kaza1248 khak1248 noga1249 nort2690 nort2697 oldu1238 shor1247 tata1255 turk1303 turk1304 tuvi1240 uigh1240 yaku1245;
+    taxaset node6 = nucl1643 oldj1239;
+    taxaset node7 = cent2126 hate1238 ikem1235 nort2935 ogam1239 okin1246 shur1243 sout2954 tara1319 yona1241;
+    taxaset node10 = halh1238 kham1281 oira1262 ordo1245 russ1264 torg1245;
+    taxaset node11 = bona1250 dong1285 east2337 huzh1238 minh1238;
+    taxaset node15 = nana1257 oroc1248 orok1265 udih1248 ulch1241;
+    taxaset node17 = berj1234 huih1238 moma1245 negi1245 sibe1251;
+    taxaset node19 = anat1259 bash1264 chag1247 crim1257 dolg1241 gaga1249 kara1467 kaza1248 khak1248 noga1249 nort2690 nort2697 oldu1238 shor1247 tata1255 turk1303 turk1304 tuvi1240 uigh1240 yaku1245;
+    taxaset node22 = cent2126 nort2935 okin1246 shur1243 sout2954;
+    taxaset node23 = hate1238 ikem1235 ogam1239 tara1319 yona1241;
+    taxaset node24 = halh1238 oira1262 ordo1245 russ1264 torg1245;
+    taxaset node26 = bona1250 dong1285 huzh1238 minh1238;
+    taxaset node28 = oroc1248 udih1248;
+    taxaset node29 = nana1257 orok1265 ulch1241;
+    taxaset node30 = berj1234 moma1245;
+    taxaset node31 = huih1238 negi1245 sibe1251;
+    taxaset node32 = khak1248 shor1247 tuvi1240;
+    taxaset node33 = bash1264 crim1257 kara1467 kaza1248 noga1249 tata1255;
+    taxaset node34 = dolg1241 yaku1245;
+    taxaset node35 = anat1259 gaga1249 nort2697 turk1304;
+    taxaset node36 = chag1247 nort2690 oldu1238 uigh1240;
+    taxaset node38 = nort2935 okin1246 sout2954;
+    taxaset node39 = cent2126 shur1243;
+    taxaset node40 = hate1238 yona1241;
+    taxaset node41 = ikem1235 ogam1239 tara1319;
+    taxaset node43 = halh1238 oira1262 ordo1245 torg1245;
+    taxaset node44 = bona1250 dong1285;
+    taxaset node45 = huzh1238 minh1238;
+    taxaset node48 = orok1265 ulch1241;
+    taxaset node52 = huih1238 sibe1251;
+    taxaset node55 = khak1248 shor1247;
+    taxaset node56 = bash1264 tata1255;
+    taxaset node57 = kara1467 kaza1248 noga1249;
+    taxaset node63 = anat1259 gaga1249;
+    taxaset node64 = chag1247 nort2690 uigh1240;
+    taxaset node67 = nort2935 sout2954;
+    taxaset node75 = oira1262 torg1245;
+    taxaset node95 = nort2690 uigh1240;
+END;
+
