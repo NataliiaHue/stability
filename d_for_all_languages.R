@@ -3,6 +3,7 @@ library("caper")
 library("phytools")
 library("reshape")
 library("TreePar")
+library("dplyr")
 
 
 FEATURES_TO_IGNORE <- c(
@@ -21,10 +22,11 @@ add_outgroup_to_tree <- function(tree, tipname="ROOT"){
   phytools::bind.tip(tree, tipname, where=NULL)
 }
 
+setwd("/Users/neshcheret/Documents/GitHub/articles/stability")
 
 # prepare the structural data
 all_languages_data <- read.csv(
-  "all_languages_data.csv",
+  "all_languages_data_categories_full_names.csv",
   sep = ";",
   strip.white = TRUE,
   na.strings = c("?", "-"),
@@ -33,9 +35,11 @@ all_languages_data <- read.csv(
 # remove unnecessary features
 all_languages_data <- all_languages_data[! all_languages_data$ID %in% FEATURES_TO_IGNORE, ]
 
-all_languages_data <- melt(all_languages_data, id=c("ID", "Feature"))
+all_languages_data <- melt(all_languages_data, id=c("ID", "Feature", "PoS", "Function", "Level"))
 all_languages_data$variable <- as.character(all_languages_data$variable)  # remove factorisation
 features <- unique(all_languages_data$ID)
+
+all_languages_data <- all_languages_data[,-c(3:5)]
 
 # add fake root data -- this means we can get stability measures for features that
 # are all 1

@@ -112,12 +112,12 @@ h1 <- ggplot(stats, aes(x = Median_D)) +
 h2 <- ggplot(stats, aes(x = Median_rate_q01)) + 
   geom_histogram(binwidth = 0.1) + 
   scale_x_log10() +
-  xlab('log10(Median rate: 0 -> 1)')
+  xlab('log10(Median rate: 0 -> 1, feature gain)')
 
 h3 <- ggplot(stats, aes(x = Median_rate_q10)) +
   geom_histogram(binwidth = 0.1) +
   scale_x_log10() +
-  xlab('log10(Median rate: 1 -> 0)')
+  xlab('log10(Median rate: 1 -> 0, feature loss)')
 
 
 ggsave("histograms.pdf", (h1 | h2 | h3), height=5, width=12)
@@ -140,13 +140,13 @@ ggsave('scatter_Present_vs_Median.pdf', m)
 b1 <- ggplot(stats, aes(x = Function, y = Log10Rate_q01)) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 0 to 1') +
+  ylab('Transition from 0 to 1, feature gain') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank())
 
 b2 <- ggplot(stats, aes(x = Function, y = Log10Rate_q10)) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 1 to 0') +
+  ylab('Transition from 1 to 0, feature loss') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank())
 
 b3 <- ggplot(stats, aes(x = Function, y = Median_D)) + 
@@ -161,12 +161,12 @@ ggsave("boxplots-function.pdf", b1  /  b2 / b3,height=10,width=7)
 b4 <- ggplot(stats, aes(x = Level, y = Log10Rate_q01)) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 0 to 1') +
+  ylab('Transition from 0 to 1, feature gain') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank())
 b5 <- ggplot(stats, aes(x = Level, y = Log10Rate_q10)) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 1 to 0') +
+  ylab('Transition from 1 to 0, feature loss') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank())
 b6 <- ggplot(stats, aes(x = Level, y = Median_D)) + 
   geom_boxplot() +
@@ -181,13 +181,13 @@ ggsave("boxplots-level.pdf", b4  /  b5 / b6 ,height=10,width=7)
 b7 <- ggplot(stats, aes(x = PoS, y = Log10Rate_q01)) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 0 to 1') +
+  ylab('Transition from 0 to 1, feature gain') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank())
 
 b8 <- ggplot(stats, aes(x = PoS, y = Log10Rate_q10)) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 1 to 0') +
+  ylab('Transition from 1 to 0, feature loss') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank())
 
 b9 <- ggplot(stats, aes(x = PoS, y = Median_D)) + 
@@ -215,7 +215,7 @@ ph_rates_q10 <- ggplot(stats,aes(Log10Rate_q10,Median_D, color=Present)) +
   theme_classic() +
   geom_smooth(method='lm', formula= y~x) +
   annotate("text", x = -1.5, y=2, label = paste("tau=",round(corr_q10$estimate, digits = 2))) +
-  xlab("Log10 rate (transition from 1 to 0)") +
+  xlab("Log10 rate (transition from 1 to 0, feature loss)") +
   ylab("Median (D)") +
   expand_limits(x = -2)
 
@@ -228,7 +228,7 @@ ph_rates_q01 <- ggplot(stats,aes(Log10Rate_q01,Median_D, color=Present)) +
   theme_classic() +
   geom_smooth(method='lm', formula= y~x) +
   annotate("text", x = -1.5, y=2, label = paste("tau=",round(corr_q01$estimate, digits = 2))) +
-  xlab("Log10 rate (transition from 0 to 1)") +
+  xlab("Log10 rate (transition from 0 to 1, feature gain)") +
   ylab("Median (D)") +
   expand_limits(x = -2)
 
@@ -384,7 +384,7 @@ p_rate_01 <- ggplot(rates_feature_short, aes(x = Log10q01, y = reorder(Feature_s
   theme(axis.title.y=element_blank()) +
   scale_fill_gradient(low="orange", high="blue") +
   guides(fill="none") +
-  xlab("Log10 0-1 transition rate")
+  xlab("Log10 0-1 transition rate (feature gain")
 
 ggsave('ridgeplot-q01-vs-Feature.pdf', height=20, width=10)
 
@@ -393,7 +393,7 @@ p_rate_10 <- ggplot(rates_feature_short, aes(x = Log10q01, y=reorder(Feature_sho
   theme(axis.title.y=element_blank()) +
   scale_fill_gradient(low="orange", high="blue") +
   guides(fill="none") +
-  xlab("1-0 transition rate")
+  xlab("1-0 transition rate (feature loss)")
 
 ggsave('ridgeplot-q10-vs-Feature.pdf', height=20, width=10)
 
