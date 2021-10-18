@@ -50,9 +50,11 @@ add_outgroup_to_tree <- function(tree, tipname="ROOT"){
   phytools::bind.tip(tree, tipname, where=NULL)
 }
 
+setwd("/Users/neshcheret/Documents/GitHub/articles/stability")
+
 # prepare the structural data
 all_languages_data <- read.csv(
-  "all_languages_data.csv",
+  "all_languages_data_categories_full_names.csv",
   sep = ";",
   strip.white = TRUE,
   na.strings = c("?", "-"),
