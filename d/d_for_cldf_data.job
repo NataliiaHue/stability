@@ -1,0 +1,6 @@
+#!/bin/sh
+#SBATCH --job-name d_for_cldf_data
+#SBATCH --get-user-env
+#SBATCH --output d_for_cldf_data.%j.run
+#SBATCH --array=0-1000
+./d_for_cldf_data.R $SLURM_ARRAY_TASK_ID

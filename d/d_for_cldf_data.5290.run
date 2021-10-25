@@ -1,0 +1,283 @@
+Loading required package: MASS
+Loading required package: mvtnorm
+Loading required package: maps
+Loading required package: Matrix
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:reshape’:
+
+    expand
+
+Loading required package: subplex
+Loading required package: TreeSim
+Loading required package: geiger
+Loading required package: deSolve
+
+Attaching package: ‘dplyr’
+
+The following object is masked from ‘package:reshape’:
+
+    rename
+
+The following object is masked from ‘package:MASS’:
+
+    select
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+✔ tibble  3.1.5     ✔ stringr 1.4.0
+✔ tidyr   1.1.4     ✔ forcats 0.5.1
+✔ readr   2.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ tidyr::expand() masks Matrix::expand(), reshape::expand()
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+✖ purrr::map()    masks maps::map()
+✖ tidyr::pack()   masks Matrix::pack()
+✖ dplyr::rename() masks reshape::rename()
+✖ dplyr::select() masks MASS::select()
+✖ tidyr::unpack() masks Matrix::unpack()
+Rows: 13801 Columns: 8
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (7): ID, Language_ID, Parameter_ID, Value, Code_ID, Source, Examples
+lgl (1): Comment
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+removing GB036 -- all zero
+removing GB038 -- all zero
+removing GB051 -- all zero
+removing GB052 -- all zero
+removing GB053 -- all zero
+removing GB054 -- all zero
+removing GB058 -- all zero
+removing GB081 -- all zero
+removing GB090 -- all zero
+removing GB092 -- all zero
+removing GB093 -- all zero
+removing GB094 -- all zero
+removing GB095 -- all zero
+removing GB096 -- all zero
+removing GB098 -- all zero
+removing GB099 -- all zero
+removing GB104 -- all zero
+removing GB109 -- all zero
+removing GB116 -- all zero
+removing GB124 -- all zero
+removing GB129 -- all zero
+removing GB131 -- all zero
+removing GB148 -- all zero
+removing GB149 -- all zero
+removing GB165 -- all zero
+removing GB170 -- all zero
+removing GB171 -- all zero
+removing GB172 -- all zero
+removing GB177 -- all zero
+removing GB186 -- all zero
+removing GB192 -- all zero
+removing GB198 -- all zero
+removing GB260 -- all zero
+removing GB262 -- all zero
+removing GB270 -- all zero
+removing GB291 -- all zero
+removing GB300 -- all zero
+removing GB303 -- all zero
+removing GB314 -- all zero
+removing GB315 -- all zero
+removing GB317 -- all zero
+removing GB319 -- all zero
+removing GB320 -- all zero
+removing GB321 -- all zero
+removing GB331 -- all zero
+removing GB334 -- all zero
+removing GB335 -- all zero
+removing GB336 -- all zero
+removing GB402 -- all zero
+removing GB430 -- all zero
+removing TS004 -- all zero
+removing TS008 -- all zero
+removing TS087 -- all zero
+Working on tree 3 
+Tree	Feature	D	PVal1	Pval0
+3	GB020	0.90007	0.30700	0.10600
+3	GB021	0.85094	0.26700	0.21000
+3	GB022	0.50898	0.01000	0.04300
+3	GB023	0.14822	0.01400	0.39000
+3	GB026	0.12107	0.00700	0.39700
+3	GB027	0.56754	0.04800	0.04700
+3	GB028	0.06161	0.00000	0.42800
+3	GB030	0.02968	0.27900	0.52100
+3	GB031	-0.31701	0.01200	0.66300
+3	GB035	0.29572	0.00000	0.14700
+3	GB037	2.07067	0.96500	0.00700
+3	GB039	0.30566	0.00000	0.16700
+3	GB041	-3.77262	0.01100	0.83700
+3	GB042	0.66255	0.33300	0.46700
+3	GB043	1.72829	0.68300	0.17200
+3	GB044	0.29805	0.00000	0.16200
+3	GB046	0.40144	0.07500	0.27000
+3	GB047	0.04711	0.03800	0.50300
+3	GB048	0.85325	0.36500	0.05200
+3	GB049	0.21538	0.03100	0.36900
+3	GB057	0.08724	0.00000	0.37400
+3	GB059	-0.18794	0.00000	0.68900
+3	GB068	0.10899	0.00000	0.38000
+3	GB069	-0.33323	0.00000	0.81600
+3	GB070	-0.69594	0.00900	0.77900
+3	GB071	-0.41469	0.02600	0.70600
+3	GB072	-0.70011	0.00900	0.78500
+3	GB073	-3.98804	0.00000	0.82800
+3	GB074	-0.90514	0.14800	0.71300
+3	GB075	-3.64501	0.00000	0.83400
+3	GB079	0.17826	0.16800	0.60600
+3	GB080	-4.79551	0.00000	0.84000
+3	GB082	1.24366	0.88200	0.00000
+3	GB083	0.41333	0.07200	0.33300
+3	GB084	0.27696	0.00000	0.12500
+3	GB086	0.66902	0.04000	0.01200
+3	GB089	-0.14657	0.00000	0.72800
+3	GB091	-0.15700	0.00000	0.73700
+3	GB103	0.55684	0.22100	0.32500
+3	GB105	0.49988	0.06900	0.17300
+3	GB107	0.01682	0.00000	0.48300
+3	GB108	-0.07427	0.00000	0.58300
+3	GB110	1.56697	0.57700	0.30800
+3	GB111	-0.65012	0.00000	0.99400
+3	GB113	-3.94419	0.00000	0.82400
+3	GB114	-0.13360	0.00000	0.67700
+3	GB115	0.23415	0.00100	0.27100
+3	GB117	0.63945	0.13100	0.09800
+3	GB118	0.93701	0.38800	0.01300
+3	GB119	0.35758	0.00100	0.08400
+3	GB120	0.79881	0.13900	0.00400
+3	GB121	0.65734	0.02300	0.00200
+3	GB122	0.00207	0.00100	0.51200
+3	GB123	-0.92415	0.00000	0.92500
+3	GB126	0.54907	0.03200	0.06300
+3	GB127	-1.06254	0.03400	0.80700
+3	GB132	0.93200	0.32000	0.04500
+3	GB133	-4.91721	0.00000	0.84600
+3	GB134	0.27815	0.07900	0.37000
+3	GB135	0.60208	0.12200	0.10300
+3	GB136	0.25633	0.00100	0.18600
+3	GB137	0.23515	0.00000	0.22700
+3	GB138	1.04773	0.51000	0.14600
+3	GB139	0.22592	0.00000	0.23700
+3	GB140	0.77128	0.19200	0.03500
+3	GB146	-0.11913	0.00300	0.58600
+3	GB147	-0.22674	0.00000	0.70200
+3	GB150	0.63002	0.15000	0.16700
+3	GB151	0.21500	0.34700	0.49800
+3	GB152	1.02756	0.50600	0.00400
+3	GB155	-3.81799	0.00000	0.80900
+3	GB156	0.93534	0.45500	0.32800
+3	GB158	1.26005	0.71200	0.01400
+3	GB159	1.15433	0.66500	0.00600
+3	GB160	1.17057	0.74700	0.00000
+3	GB166	1.67185	0.67400	0.16600
+3	GB167	1.88795	0.90700	0.01300
+3	GB184	0.72540	0.19100	0.07800
+3	GB185	0.69667	0.10200	0.02000
+3	GB187	0.25844	0.02400	0.35400
+3	GB188	0.46457	0.08300	0.22100
+3	GB196	0.04021	0.27500	0.50900
+3	GB197	-0.01506	0.28400	0.51700
+3	GB204	0.96236	0.40500	0.04700
+3	GB250	-0.51631	0.00000	0.77700
+3	GB252	0.60447	0.08000	0.07200
+3	GB253	-0.29050	0.00000	0.82200
+3	GB254	0.27672	0.00100	0.18700
+3	GB256	-0.12217	0.00000	0.62700
+3	GB257	0.88574	0.27200	0.00200
+3	GB263	0.93038	0.33200	0.01400
+3	GB264	0.96407	0.45800	0.06800
+3	GB265	0.27933	0.32700	0.45400
+3	GB266	-0.35464	0.00000	0.83900
+3	GB273	-0.31395	0.00000	0.84700
+3	GB275	0.48474	0.01100	0.06200
+3	GB276	0.88310	0.37600	0.04400
+3	GB285	-1.45575	0.04700	0.76600
+3	GB286	0.97941	0.43600	0.01800
+3	GB296	0.53237	0.02800	0.07900
+3	GB297	-0.72892	0.05300	0.77000
+3	GB298	-0.17782	0.00000	0.72800
+3	GB299	-0.00225	0.00000	0.48600
+3	GB301	0.46733	0.17200	0.22600
+3	GB302	3.61325	0.89600	0.06700
+3	GB304	-0.04612	0.00000	0.53300
+3	GB305	-0.21621	0.06700	0.61000
+3	GB306	0.03796	0.02800	0.49600
+3	GB309	0.12930	0.00000	0.31100
+3	GB312	0.26112	0.07400	0.45200
+3	GB313	0.94317	0.37600	0.00300
+3	GB316	0.67810	0.34600	0.43900
+3	GB318	0.69501	0.33000	0.43700
+3	GB322	0.75617	0.09700	0.01000
+3	GB323	1.00398	0.47500	0.00000
+3	GB324	1.17994	0.82100	0.00000
+3	GB325	1.16805	0.75100	0.00000
+3	GB326	0.73486	0.22400	0.10300
+3	GB327	0.85271	0.23000	0.01500
+3	GB328	-0.35662	0.03800	0.65300
+3	GB329	0.65864	0.16500	0.10800
+3	GB330	-1.50882	0.08800	0.75400
+3	GB333	-3.32227	0.00000	0.82500
+3	GB400	0.81711	0.24300	0.05000
+3	GB401	1.04950	0.47500	0.10000
+3	GB403	-1.50551	0.00000	0.98200
+3	GB408	-0.20101	0.03300	0.65300
+3	GB409	0.16181	0.31300	0.51300
+3	GB410	-0.08465	0.00000	0.62300
+3	GB415	0.63324	0.02100	0.01000
+3	GB421	0.30252	0.03200	0.29300
+3	GB422	-0.46620	0.00000	0.84700
+3	GB431	0.93028	0.45300	0.30800
+3	GB432	0.16942	0.00100	0.31200
+3	GB433	-0.65811	0.00000	0.99500
+3	GB519	0.85950	0.22400	0.00600
+3	GB520	0.96873	0.46800	0.14800
+3	GB521	0.98342	0.45400	0.03100
+3	GB522	-0.37250	0.03200	0.68100
+3	TE003	-0.34053	0.00000	0.92500
+3	TE004	-0.22565	0.00000	0.68900
+3	TE005	-0.11522	0.00000	0.63800
+3	TE006	-0.27925	0.00000	0.78200
+3	TE007	-0.14909	0.00000	0.66400
+3	TE008	0.54844	0.01700	0.04600
+3	TE018	-0.14218	0.00000	0.68800
+3	TE019	-0.24493	0.00000	0.80200
+3	TE027	0.56601	0.01500	0.01100
+3	TE031	-0.12717	0.00000	0.67300
+3	TE037	0.58325	0.00600	0.01100
+3	TE038	-0.37001	0.00000	0.90600
+3	TE039	0.39622	0.00100	0.07700
+3	TE050	1.11287	0.53300	0.13000
+3	TE052	-0.37291	0.00000	0.93200
+3	TE053	0.37703	0.00000	0.06900
+3	TE054	0.52465	0.06700	0.13200
+3	TE059	0.52362	0.04700	0.11000
+3	TE066	-0.66799	0.00000	0.99900
+3	TE078	0.47301	0.07300	0.23700
+3	TS001	0.34413	0.07800	0.35200
+3	TS002	0.10209	0.00000	0.38400
+3	TS003	-4.98926	0.00000	0.85000
+3	TS005	-4.80445	0.00000	0.83700
+3	TS006	-0.46011	0.00000	0.95900
+3	TS007	-4.40912	0.00000	0.83600
+3	TS009	1.12677	0.61400	0.00600
+3	TS010	0.87764	0.33800	0.01800
+3	TS079	-0.08358	0.00400	0.56500
+3	TS080	0.18323	0.00000	0.24300
+3	TS086	-3.62858	0.00000	0.81000
+3	TS088	0.06939	0.00000	0.43500
+There were 50 or more warnings (use warnings() to see the first 50)
