@@ -78,6 +78,9 @@ data <- as.data.frame(data)
 
 data$value <- as.numeric(data$value)
 
+sum(is.na(data[data$ID == "GB026", 'value'])) / length(is.na(data[data$ID == "GB026", 'value']))
+
+
 # Create a dataframe with summaries of the results
 stats <- data.frame(
     Feature = features,
@@ -88,6 +91,7 @@ stats <- data.frame(
     Values = sapply(features, function(f) length(na.exclude(data[data$ID == f, 'value']))), # Number of data points (non-missing data)
     Present = sapply(features, function(f) sum(na.exclude(data[data$ID == f, 'value']))), # Number of 1's
     Proportion_present = sapply(features, function(f) round(sum(na.exclude(data[data$ID == f, 'value']))/length(na.exclude(data[data$ID == f, 'value'])), digits = 2)), # Proportion of 1's
+    Proportion_missing = sapply(features, function(f) round(sum(is.na(data[data$ID == f, 'value']))/length(is.na(data[data$ID == f, 'value'])), digits = 2)), # Proportion of NA's
     Median_D = sapply(features, function(f) round(median(df_d[df_d$Feature == f, 'D']), digits = 2)),
     SD_D = sapply(features, function(f) round(sd(df_d[df_d$Feature == f, 'D']), digits = 2)),
     Min_D = sapply(features, function(f) round(min(df_d[df_d$Feature == f, 'D']), digits = 2)),
@@ -143,13 +147,69 @@ h3 <- ggplot(df_rates, aes(x = Log10_q10)) +
 ggsave("histograms.pdf", (h1 | h2 | h3), height=5, width=12)
 
 # what is the relationship between the median _D_ score and the number of present characters
-m <- ggplot(stats, aes(x = Present, y = Median_D, color = Values)) +
+present <- ggplot(stats, aes(x = Present, y = Median_D, color = Values)) +
     geom_point() +
-    ggtitle("Median _D_ score and number of 1's") +
+    ggtitle("Median D score and number of 1's") +
     scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
     theme_classic()
-ggsave('scatter_Present_vs_Median.pdf', m)
+ggsave('scatter_Present_vs_Median_D.pdf', present)
 
+# what is the relationship between the median _D_ score and the amount of missing data?
+missing_d <- ggplot(stats, aes(x = Proportion_missing, y = Median_D, color = Values)) +
+  geom_point() +
+  ggtitle("Median D score and amount of NA's") +
+  xlab('Proportion missing') +
+  ylab('Median D rate') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
+  theme_classic()
+missing_d
+ggsave('scatter_Missing_vs_Median_D.pdf', missing_d)
+
+# what is the relationship between the median rate of loss score and the amount of missing data?
+missing_q10 <- ggplot(stats, aes(x = Proportion_missing, y = Median_rate_q10, color = Values)) +
+  geom_point() +
+  ggtitle("Median rate of feature loss and amount of NA's") +
+  xlab('Proportion missing') +
+  ylab('Median rate of feature loss') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
+  theme_classic()
+missing_q10
+ggsave('scatter_Missing_vs_Median_q10.pdf', missing_q10)
+
+# what is the relationship between the median rate of gain score and the amount of missing data?
+missing_q01 <- ggplot(stats, aes(x = Proportion_missing, y = Median_rate_q01, color = Values)) +
+  geom_point() +
+  ggtitle("Median rate of feature gain and amount of NA's") +
+  xlab('Proportion missing') +
+  ylab('Median rate of feature gain') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
+  theme_classic()
+missing_q01
+ggsave('scatter_Missing_vs_Median_q01.pdf', missing_q10)
+
+ggsave("missing_data.pdf", (missing_d | missing_q01 | missing_q10), height=5, width=15)
+
+cor_d_missing <-cor.test(stats$Proportion_missing, stats$Median_D, method="kendall")
+cor_d_missing # 0.06
+
+cor_q01_missing <-cor.test(stats$Proportion_missing, stats$Median_rate_q01, method="kendall")
+cor_q01_missing # 0.23
+
+cor_q10_missing <-cor.test(stats$Proportion_missing, stats$Median_rate_q10, method="kendall")
+cor_q10_missing # 0.49
+
+# How many features could I code for less than 50% of languages? -> 9 features, or 5 %
+stats %>%
+  count(Proportion_missing < 0.5) %>%
+  mutate(Percentage = n/sum(n))
+
+stats %>%
+  count(Proportion_missing < 0.3) %>%
+  mutate(Percentage = n/sum(n))
+
+stats_missing_less_fifty <- stats %>%
+  filter(Proportion_missing < 0.5)
+  
 
 # > 1 overdispersed
 # = 1 random
@@ -230,6 +290,7 @@ corr_q10
 # correlation between D and 01 transition rate
 corr_q01 <- cor.test(median_d,rate_gain, method="kendall")
 corr_q01
+
 # plot the correlation between phylogenetic signal and q10 transition rate
 
 ph_df_rates_q10 <- ggplot(stats,aes(Log10_Median_rate_q10, Median_D, color=Present)) +
@@ -586,3 +647,31 @@ compare <- compare %>%
          diff_median_rate_gain = Median_rate_gain - Median_rate_q01) %>%
   select(Feature, Feature_short, diff_median_rate_loss, diff_median_rate_gain)
 
+missing_d_old <- ggplot(compare, aes(x = Proportion_missing, y = Median_D.x, color = Values)) +
+  geom_point() +
+  ggtitle("Median D and amount of NA's") +
+  xlab('Proportion missing') +
+  ylab('Median D') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
+  theme_classic()
+missing_d_old
+
+missing_q01_old <- ggplot(compare, aes(x = Proportion_missing, y = Median_rate_gain, color = Values)) +
+  geom_point() +
+  ggtitle("Median rate of feature gain and amount of NA's") +
+  xlab('Proportion missing') +
+  ylab('Median rate of feature gain') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
+  theme_classic()
+missing_q01_old
+
+missing_q10_old <- ggplot(compare, aes(x = Proportion_missing, y = Median_rate_loss, color = Values)) +
+  geom_point() +
+  ggtitle("Median rate of feature loss and amount of NA's") +
+  xlab('Proportion missing') +
+  ylab('Median rate of feature loss') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
+  theme_classic()
+missing_q10_old
+
+ggsave("missing_data_old.pdf", (missing_d_old | missing_q01_old | missing_q10_old), height=5, width=15)
