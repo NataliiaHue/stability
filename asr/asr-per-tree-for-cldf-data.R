@@ -96,7 +96,7 @@ constant_features <- names(result_test[result_test])
 data <- data[data$ID %in% constant_features == FALSE, ]
 
 # replace <NA> with how RayDISC deals with NA
-data[is.na(data$value),]$value <- '&'
+data[is.na(data$value),]$value <- '?'
 
 # read in the phylogeny
 if (!file.exists('stability_covarion_relaxed.1000.trees')) {
