@@ -50,7 +50,6 @@ add_outgroup_to_tree <- function(tree, tipname="ROOT"){
   phytools::bind.tip(tree, tipname, where=NULL)
 }
 
-setwd("/Users/neshcheret/Documents/GitHub/hueblerstability")
 
 # Read in coded values
 values <- read_csv("cldf/values.csv")
@@ -97,8 +96,6 @@ data[is.na(data$value),]$value <- '-'
 
 
 # read in the phylogeny
-
-setwd("/Users/neshcheret/Documents/GitHub/articles/stability")
 
 trees <- read.nexus("beast/stability_covarion_relaxed.1000.trees")
 # trees <- read.nexus("https://raw.githubusercontent.com/NataliiaHue/stability/main/beast/stability_covarion_relaxed.1000.trees")
