@@ -17,7 +17,7 @@ library(readr)
 # read in the categories
 # categories <- read_tsv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/etc/features_with_categories.tsv")
 
-setwd("../hueblerstability")
+setwd("/Users/neshcheret/Documents/GitHub/hueblerstability")
 
 categories <- read_tsv("etc/features_with_categories.tsv")
 
@@ -59,6 +59,7 @@ length(categories$ID) # 171
 # Read in coded values
 # values <- read_csv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/cldf/values.csv")
 
+setwd("/Users/neshcheret/Documents/GitHub/hueblerstability")
 values <- read_csv("cldf/values.csv")
 
 # Merge the data
@@ -644,57 +645,3 @@ write.table(si_table,"SI_summary_table.csv", sep = "\t", row.names=FALSE, quote 
 
 setwd("/Users/neshcheret/Documents/GitHub/stability")
 
-old_stats <- read_tsv("SI_summary_table.csv") # 224 features
-old_stats <- old_stats[old_stats$Feature %in% categories$ID == TRUE, ] # 171 features
-
-compare <- old_stats %>%
-  inner_join(summary_rates, by = c("Feature" = "Feature"))
-
-compare <- compare  %>%
-  right_join(categories, by = c("Feature" = "ID"))
-
-compare_d <- ggplot(compare, aes(Median_D.x, Median_D.y)) +
-  geom_point()
-compare_d
-compare_rate_loss <- ggplot(compare, aes(Median_rate_loss, q10)) +
-  geom_point()
-compare_rate_loss
-compare_rate_gain <- ggplot(compare, aes(Median_rate_gain, q01)) +
-  geom_point()
-compare_rate_gain
-
-ggsave("compare_rep2.pdf", compare_d  /  compare_rate_loss / compare_rate_gain ,height=10,width=7)
-
-compare <- compare %>%
-  mutate(diff_median_rate_loss = Median_rate_loss - q10,
-         diff_median_rate_gain = Median_rate_gain - q01) %>%
-  select(Feature, Feature_short, diff_median_rate_loss, diff_median_rate_gain)
-
-missing_d_old <- ggplot(compare, aes(x = Proportion_missing, y = Median_D.x, color = Values)) +
-  geom_point() +
-  ggtitle("Median D and amount of NA's") +
-  xlab('Proportion missing') +
-  ylab('Median D') +
-  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
-  theme_classic()
-missing_d_old
-
-missing_q01_old <- ggplot(compare, aes(x = Proportion_missing, y = Median_rate_gain, color = Values)) +
-  geom_point() +
-  ggtitle("Median rate of feature gain and amount of NA's") +
-  xlab('Proportion missing') +
-  ylab('Median rate of feature gain') +
-  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
-  theme_classic()
-missing_q01_old
-
-missing_q10_old <- ggplot(compare, aes(x = Proportion_missing, y = Median_rate_loss, color = Values)) +
-  geom_point() +
-  ggtitle("Median rate of feature loss and amount of NA's") +
-  xlab('Proportion missing') +
-  ylab('Median rate of feature loss') +
-  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
-  theme_classic()
-missing_q10_old
-
-ggsave("missing_data_old.pdf", (missing_d_old | missing_q01_old | missing_q10_old), height=5, width=15)

@@ -21,3 +21,18 @@ df_states <- list.files("/Users/neshcheret/Documents/GitHub/stability/asr", "asr
   bind_rows
 
 write.csv(df_states, 'results_asr_states.csv', quote=FALSE, row.names=FALSE)
+
+# Collect old results
+
+df_rates_22_oct <- list.files("/Users/neshcheret/Documents/GitHub/stability/asr_22_oct", "asr_rates.*.csv", full.names=TRUE) %>% 
+  lapply(read_csv) %>% 
+  bind_rows
+
+write.csv(df_rates, 'results_asr_rates_22_oct.csv', quote=FALSE, row.names=FALSE)
+
+df_states_22_oct <- list.files("/Users/neshcheret/Documents/GitHub/stability/asr_22_oct", "asr_states.*.csv", full.names=TRUE) %>% 
+  lapply(read_csv) %>% 
+  bind_rows
+
+write.csv(df_states_22_oct, 'results_asr_states_22_oct.csv', quote=FALSE, row.names=FALSE)
+
