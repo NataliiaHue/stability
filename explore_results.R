@@ -14,10 +14,13 @@ library(readr)
 # The analysis was run for the feature set in the categories file
 # match the raw values with categoriea and remove all features NOT present in categories
 
+setwd("/Users/neshcheret/Documents/GitHub/hueblerstability")
+
 # read in the categories
 # categories <- read_tsv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/etc/features_with_categories.tsv")
 
-setwd("/Users/neshcheret/Documents/GitHub/hueblerstability")
+# read in coded values
+# values <- read_csv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/cldf/values.csv")
 
 categories <- read_tsv("etc/features_with_categories.tsv")
 
@@ -26,40 +29,8 @@ description <- categories$Feature # Save the feature question in variable
 PoS <- categories$PoS # Save the part of speech in a variable
 Function <- categories$Function # Save the functional category in a variable
 Level <- categories$Level # Save the language level in a variable
+Feature_short <- categories$Feature_short
 
-setwd("/Users/neshcheret/Documents/GitHub/stability")
-
-# load phylogenetic signal (D) results
-df_d <- read.csv('results_d.csv', header = TRUE)
-
-# load rate results
-df_rates <- read.csv('results_asr_rates.csv', header=TRUE)
-
-# throw away the other models except for the q01 and q10 rates found by the ARD model
-df_rates_er <- df_rates[df_rates$Model == 'ER', ]
-df_rates_er$Log10_rate <- log10(df_rates_er$q01)
-df_rates <- df_rates[df_rates$Model == 'ARD', ]
-
-df_rates$Log10_q01 <- log10(df_rates$q01)
-df_rates$Log10_q10 <- log10(df_rates$q10)
-
-# load states results
-df_states <- read.csv('results_asr_states.csv', header = TRUE)
-
-# throw away the other models except for the states found by the ARD model
-df_states_er <- df_states[df_states$Model == 'ER', ]
-df_states <- df_states[df_states$Model == 'ARD', ]
-
-length(unique(df_rates$Feature)) # 171
-length(unique(df_states$Feature)) # 171
-length(unique(df_d$Feature)) # 171
-length(unique(df_states$Feature)) # 171
-length(categories$ID) # 171
-
-# Read in coded values
-# values <- read_csv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/cldf/values.csv")
-
-setwd("/Users/neshcheret/Documents/GitHub/hueblerstability")
 values <- read_csv("cldf/values.csv")
 
 # Merge the data
@@ -71,13 +42,48 @@ data <- values %>%
 data <- data[data$ID %in% categories$ID == TRUE, ]
 length(unique(data$ID)) # 171
 
+# convert from tibble to a data frame
 data <- as.data.frame(data)
 
 data$value <- as.numeric(data$value)
 
+setwd("/Users/neshcheret/Documents/GitHub/stability")
+
+# load phylogenetic signal (D) results
+df_d <- read.csv('results_d.csv', header = TRUE)
+
+# collect rates results
+asr_rates_oct29 <- lapply(list.files('asr_29_oct', 'asr_rates.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+#write.csv(asr.oct29, 'results_asr_rates.csv', quote=FALSE, row.names=FALSE)
+
+# the previous command produces a tibble -> convert to data.frame
+df_rates <- as.data.frame(asr_rates_oct29)
+# df_rates <- as.data.frame(df_rates)
+# df_rates <- read.csv('results_asr_rates.csv', header=TRUE)
+
+# throw away the other models except for the q01 and q10 rates found by the ARD model
+df_rates <- df_rates[df_rates$Model == 'ARD', ]
+
+# collect states results
+asr_states_oct29 <- lapply(list.files('asr_29_oct', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+
+# the previous command produces a tibble -> convert to data.frame
+df_states <- as.data.frame(asr_states_oct29)
+#df_states <- read.csv('results_asr_states.csv', header = TRUE)
+
+# throw away the other models except for the states found by the ARD model
+df_states <- df_states[df_states$Model == 'ARD', ]
+
+length(unique(df_rates$Feature)) # 171
+length(unique(df_states$Feature)) # 171
+length(unique(df_d$Feature)) # 171
+length(unique(df_states$Feature)) # 171
+length(categories$ID) # 171
+
 # Create a dataframe with summaries of the results
 stats <- data.frame(
     Feature = features,
+    Feature_short = Feature_short,
     Description = description,
     Function = Function,
     Level = Level,
@@ -106,10 +112,11 @@ stats <- data.frame(
     p1_mongolic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Mongolic", 'p1']), digits = 2)),
     p1_tungusic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Tungusic", 'p1']), digits = 2)),
     p1_koreanic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Koreanic", 'p1']), digits = 2)),
-    p1_japonic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Japonic", 'p1']), digits = 2)),
-    Log10_Median_rate_q01 = sapply(features, function(f) round(median(df_rates[df_rates$Feature == f, 'Log10_q01'], na.rm = TRUE), digits = 2)),
-    Log10_Median_rate_q10 = sapply(features, function(f) round(median(df_rates[df_rates$Feature == f, 'Log10_q10'], na.rm = TRUE), digits = 2))
+    p1_japonic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Japonic", 'p1']), digits = 2))
    )
+
+setwd("/Users/neshcheret/Documents/GitHub/stability")
+write.table(stats,"SI_summary_table_Oct_29.csv", sep = "\t", row.names=FALSE, quote = TRUE)
 
 # Check if there are uninformative features with all absent
 stats[stats$Present==0,]
@@ -127,82 +134,81 @@ theme_set(theme_classic())
 h1 <- ggplot(df_d, aes(x = D)) + 
   geom_histogram(binwidth = 3) + 
   xlab('D')
+h1
 
-h2 <- ggplot(df_rates, aes(x = Log10_q01)) + 
-  geom_histogram(binwidth = 1) + 
+h2 <- ggplot(df_rates, aes(q01)) + 
+  geom_histogram(binwidth = 10) + 
   xlab('Rate of feature gain (0 -> 1)')
+h2
 
-h3 <- ggplot(df_rates, aes(x = Log10_q10)) +
-  geom_histogram(binwidth = 1) +
+h3 <- ggplot(df_rates, aes(q10)) +
+  geom_histogram(binwidth = 10) +
   xlab('Rate of feature loss (1 -> 0)')
-
+h3
 
 ggsave("histograms.pdf", (h1 | h2 | h3), height=5, width=12)
 
 # what is the relationship between the median _D_ score and the number of present characters
-present <- ggplot(stats, aes(x = Present, y = Median_D, color = Values)) +
-    geom_point() +
-    ggtitle("Median D score and number of 1's") +
-    scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
-    theme_classic()
-ggsave('scatter_Present_vs_Median_D.pdf', present)
+present_d <- ggplot(stats, aes(x = Present, y = Median_D, color = Values)) +
+    geom_point(show.legend = FALSE) +
+    ggtitle('D vs. "1"') +
+    xlab('Proportion present') +
+    ylab('D') +
+    scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue")
+
+present_q10 <- ggplot(stats, aes(x = Present, y = Median_rate_q10, color = Values)) +
+  geom_point(show.legend = FALSE) +
+  ggtitle('Feature loss vs. "1"') +
+  xlab('Proportion present') +
+  ylab('Rate of feature loss') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue")
+
+present_q01 <- ggplot(stats, aes(x = Present, y = Median_rate_q01, color = Values)) +
+  geom_point() +
+  ggtitle('Feature gain vs. "1"') +
+  xlab('Proportion present') +
+  ylab('Rate of feature gain') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue")
+
+ggsave("present.pdf", (present_d | present_q10 | present_q01), height=2, width=8)
 
 # what is the relationship between the median _D_ score and the amount of missing data?
 missing_d <- ggplot(stats, aes(x = Proportion_missing, y = Median_D, color = Values)) +
-  geom_point() +
-  ggtitle("Median D score and amount of NA's") +
+  geom_point(show.legend = FALSE) +
+  ggtitle('D vs. NA') +
   xlab('Proportion missing') +
-  ylab('Median D rate') +
-  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
-  theme_classic()
+  ylab('D') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue")
 missing_d
-ggsave('scatter_Missing_vs_Median_D.pdf', missing_d)
 
 # what is the relationship between the median rate of loss score and the amount of missing data?
 missing_q10 <- ggplot(stats, aes(x = Proportion_missing, y = Median_rate_q10, color = Values)) +
-  geom_point() +
-  ggtitle("Median rate of feature loss and amount of NA's") +
+  geom_point(show.legend = FALSE) +
+  ggtitle("Feature loss vs. NA") +
   xlab('Proportion missing') +
-  ylab('Median rate of feature loss') +
-  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
-  theme_classic()
+  ylab('Rate of feature loss') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue")
 missing_q10
-ggsave('scatter_Missing_vs_Median_q10.pdf', missing_q10)
 
 # what is the relationship between the median rate of gain score and the amount of missing data?
 missing_q01 <- ggplot(stats, aes(x = Proportion_missing, y = Median_rate_q01, color = Values)) +
   geom_point() +
-  ggtitle("Median rate of feature gain and amount of NA's") +
+  ggtitle("Feature gain vs. NA") +
   xlab('Proportion missing') +
-  ylab('Median rate of feature gain') +
-  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
-  theme_classic()
+  ylab('Rate of feature gain') +
+  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue")
 missing_q01
-ggsave('scatter_Missing_vs_Median_q01.pdf', missing_q10)
 
-missing_ER <- ggplot(stats, aes(x = Proportion_missing, y = Median_rate_ER, color = Values)) +
-  geom_point() +
-  ggtitle("Median rate and amount of NA's") +
-  xlab('Proportion missing') +
-  ylab('Median rate') +
-  scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue") +
-  theme_classic()
-missing_ER
-ggsave('scatter_Missing_vs_Median_rate_ER.pdf', missing_ER)
-
-ggsave("missing_data.pdf", (missing_d | missing_q01 | missing_q10), height=5, width=15)
+ggsave("missing-data.pdf", (missing_d | missing_q10 | missing_q01), height=2, width=8)
 
 cor_d_missing <-cor.test(stats$Proportion_missing, stats$Median_D, method="kendall")
 cor_d_missing # 0.06
 
 cor_q01_missing <-cor.test(stats$Proportion_missing, stats$Median_rate_q01, method="kendall")
-cor_q01_missing # 0.23
+cor_q01_missing # 0.22
 
 cor_q10_missing <-cor.test(stats$Proportion_missing, stats$Median_rate_q10, method="kendall")
-cor_q10_missing # 0.49
-
-cor_ER_missing <-cor.test(stats$Proportion_missing, stats$Median_rate_ER, method="kendall")
-cor_ER_missing # 0.62
+cor_q10_missing # 0.22
 
 # How many features could I code for less than 50% of languages? -> 9 features, or 5 %
 stats %>%
@@ -222,18 +228,19 @@ stats_missing_less_fifty <- stats %>%
 # < 0 extremely clumped
 
 # Parallel boxplots for function and rate
-b1 <- ggplot(stats, aes(x = Function, y = Log10_Median_rate_q01)) + 
+b1 <- ggplot(stats, aes(x = Function, y = log10(Median_rate_q01))) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
   ylab('Transition from 0 to 1, feature gain') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
 b1
 
-b2 <- ggplot(stats, aes(x = Function, y = Log10_Median_rate_q10)) + 
+b2 <- ggplot(stats, aes(x = Function, y = log10(Median_rate_q10))) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
   ylab('Transition from 1 to 0, feature loss') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
+b2
 
 b3 <- ggplot(stats, aes(x = Function, y = Median_D)) + 
   geom_boxplot() +
@@ -241,36 +248,44 @@ b3 <- ggplot(stats, aes(x = Function, y = Median_D)) +
   xlab('Function') +
   ylab('Phylogenetic signal (D)') +
   theme(axis.text.x = element_text(angle = 90,hjust=1), axis.ticks.x = element_blank())
+b3
+
 ggsave("boxplots-function.pdf", b1  /  b2 / b3,height=10,width=7)
 
 # Parallel boxplots for level and rate
-b4 <- ggplot(stats, aes(x = Level, y = Log10_Median_rate_q01)) + 
+b4 <- ggplot(stats, aes(x = Level, y = log10(Median_rate_q01))) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
   ylab('Transition from 0 to 1, feature gain') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
-b5 <- ggplot(stats, aes(x = Level, y = Log10_Median_rate_q10)) + 
+b4
+
+b5 <- ggplot(stats, aes(x = Level, y = log10(Median_rate_q10))) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
   ylab('Transition from 1 to 0, feature loss') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
+b5
+
 b6 <- ggplot(stats, aes(x = Level, y = Median_D)) + 
   geom_boxplot() +
   geom_hline(yintercept=0.5, col="red") +
   xlab('Level') +
   ylab('Phylogenetic signal (D)') +
   theme(axis.text.x = element_text(angle = 90,hjust=0.95,vjust=0.2), axis.ticks.x = element_blank())
+b6
+
 ggsave("boxplots-level.pdf", b4  /  b5 / b6 ,height=10,width=7)
 
 # Parallel boxplots for PoS and rate
 
-b7 <- ggplot(stats, aes(x = PoS, y = Log10_Median_rate_q01)) + 
+b7 <- ggplot(stats, aes(x = PoS, y = log10(Median_rate_q01))) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
   ylab('Transition from 0 to 1, feature gain') +
   theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
 
-b8 <- ggplot(stats, aes(x = PoS, y = Log10_Median_rate_q10)) + 
+b8 <- ggplot(stats, aes(x = PoS, y = log10(Median_rate_q10))) + 
   geom_boxplot() +
   geom_hline(yintercept=0, col="red") +
   ylab('Transition from 1 to 0, feature loss') +
@@ -314,12 +329,12 @@ p_d <- ggplot(df_d_feature_short, aes(x = D, y = reorder(Feature_short, D), fill
 ggsave('ridgeplot-D.pdf', height=20, width=10)
 
 # delete rows with infinite values (intrudoced through log10 transformation)
-df_rates <- df_rates[!df_rates$Log10_q01==(-Inf),]
-df_rates <- df_rates[!df_rates$Log10_q10==(-Inf),]
+#df_rates <- df_rates[!df_rates$Log10_q01==(-Inf),]
+#df_rates <- df_rates[!df_rates$Log10_q10==(-Inf),]
 
 df_rates_feature_short <- df_rates %>% 
   inner_join(categories,by=c("Feature"="ID")) %>%
-  select(Tree, Feature_short, q01, q10, Log10_q01, Log10_q10)
+  select(Tree, Feature_short, q01, q10)
 
 #df_rates_feature_short <- df_rates_feature_short[!df_rates_feature_short$Log10q01==(-Inf),]
 #df_rates_feature_short <- df_rates_feature_short[!df_rates_feature_short$q10==(-Inf),]
@@ -327,77 +342,61 @@ df_rates_feature_short <- df_rates %>%
 # reorder feature by median q01 rate value to help plotting later
 #df_rates$Feature <- with(df_rates, reorder(Feature, q01, median))
 
-p_rate_01 <- ggplot(df_rates_feature_short, aes(x = Log10_q01, y = reorder(Feature_short, Log10_q01), fill=..x..)) +
+p_rate_01 <- ggplot(df_rates_feature_short, aes(x = log10(q01), y = reorder(Feature_short, log10(q01)), fill=..x..)) +
   geom_density_ridges_gradient(rel_min_height=0.01, scale = 2) +
   theme(axis.title.y = element_blank()) +
   scale_fill_gradient(low="orange", high="blue") +
   geom_vline(xintercept=0) +
   guides(fill="none") +
-  xlab("Log10 0-1 transition rate (feature gain")
-
+  xlab("Log10 0-1 transition rate (feature gain)")
+p_rate_01
 ggsave('ridgeplot-q01.pdf', height=20, width=10)
 
-p_rate_10 <- ggplot(df_rates_feature_short, aes(x = Log10_q10, y = reorder(Feature_short, Log10_q10), fill=..x..)) +
+p_rate_10 <- ggplot(df_rates_feature_short, aes(x = log10(q10), y = reorder(Feature_short, log10(q10)), fill=..x..)) +
   geom_density_ridges_gradient(rel_min_height=0.01, scale=2) +
   theme(axis.title.y = element_blank()) +
   scale_fill_gradient(low="orange", high="blue") +
   geom_vline(xintercept=0) +
   guides(fill="none") +
   xlab("1-0 transition rate (feature loss)")
-
+p_rate_10
 ggsave('ridgeplot-q10.pdf', height=20, width=10)
 
 # Save the median D values in a variable
 median_d <- stats$Median_D
-rate_loss <- stats$Log10_Median_rate_q10
-rate_gain <- stats$Log10_Median_rate_q01
-rate_ER <- stats$Median_rate_ER
+rate_loss <- log10(stats$Median_rate_q10)
+rate_gain <- log10(stats$Median_rate_q01)
 
 # correlation between D and 10 transition rate
 corr_q10 <- cor.test(median_d,rate_loss, method="kendall")
-corr_q10
+corr_q10 # 0.5099
 # correlation between D and 01 transition rate
 corr_q01 <- cor.test(median_d,rate_gain, method="kendall")
-corr_q01
-
-# correlation between D and ER transition rate
-corr_ER <- cor.test(median_d,rate_ER, method="kendall")
-corr_ER
+corr_q01 # 0.4981
 
 # plot the correlation between phylogenetic signal and q10 transition rate
 
-ph_df_rates_q10 <- ggplot(stats,aes(Log10_Median_rate_q10, Median_D, color=Present)) +
+ph_df_rates_q10 <- ggplot(stats,aes(Median_rate_q10, Median_D, color=Present)) +
   geom_point() +
+  scale_x_log10() +
   theme_classic() +
   geom_smooth(method='lm', formula= y~x) +
-  annotate("text", x = -1.5, y=2, label = paste("tau=",round(corr_q10$estimate, digits = 2))) +
+  annotate(geom = "text", x = 1, y = 2, label = paste("tau = ",round(corr_q10$estimate, digits = 2))) +
   xlab("Log10 rate (transition from 1 to 0, feature loss)") +
-  ylab("Median (D)") +
-  expand_limits(x = -2)
-
-plotly::ggplotly()
+  ylab("Median (D)")
+ph_df_rates_q10
 
 # plot the correlation between phylogenetic signal and q01 transition rate
-
-ph_df_rates_q01 <- ggplot(stats,aes(Log10_Median_rate_q01,Median_D, color=Present)) +
+round(corr_q01$estimate, digits = 2)
+ph_df_rates_q01 <- ggplot(stats,aes(Median_rate_q01,Median_D, color=Present)) +
   geom_point() +
+  scale_x_log10() +
   theme_classic() +
   geom_smooth(method='lm', formula= y~x) +
-  annotate("text", x = -1.5, y=2, label = paste("tau=",round(corr_q01$estimate, digits = 2))) +
+  annotate(geom="text", x = 1, y = 2.5, label = paste("tau = ",round(corr_q01$estimate, digits = 2))) +
   xlab("Log10 rate (transition from 0 to 1, feature gain)") +
-  ylab("Median (D)") +
-  expand_limits(x = -2)
-
-ph_df_rate_ER <- ggplot(stats,aes(Median_D, Log10_Median_rate_ER, color=Present)) +
-  geom_point() +
-  theme_classic() +
-  geom_smooth(method='lm', formula= y~x) +
-  annotate("text", x = -1.5, y=2, label = paste("tau=",round(corr_ER$estimate, digits = 2))) +
-  xlab("Log10 Rate") +
-  ylab("Median (D)") +
-  expand_limits(x = -2)
-
-plotly::ggplotly()
+  ylab("Median (D)")
+ph_df_rates_q01
 
 ggsave("correlation.pdf", ph_df_rates_q10 / ph_df_rates_q01, height=5,width=5)
 
@@ -405,13 +404,17 @@ num_features <- length(stats$Feature)
 
 # stats for the results: phylogenetic signal
 x1 <- round(sum(median_d < 0) / num_features, digits = 2) # overclumped
-x2 <- round((sum(median_d > 0 & median_d < 0.5) / num_features), digits = 2) # phylogenetic signal
-x3 <- round(sum(median_d > 0.5 & median_d < 1) / num_features, digits = 2) # random
-x4<- round(sum(median_d > 1) / num_features, digits = 2) # overdispersed
+x1
+x2 <- round((sum(median_d >= 0 & median_d < 0.5) / num_features), digits = 2) # phylogenetic signal
+x2
+x3 <- round(sum(median_d >= 0.5 & median_d <= 1) / num_features, digits = 2) # random
+x3
+x4 <- round(sum(median_d > 1) / num_features, digits = 2) # overdispersed
+x4
 
 # Check whether the proportions sum up to 1
 x1 + x2 + x3 + x4
-x1 + x2 # number of features wtih a phylogenetic signal
+x1 + x2 # number of features with a phylogenetic signal
 x3 + x4 # number of features without a phylogenetic signal
 
 # stats for the results: rate. What is the proportion of features that evolve slowly and fast?
@@ -423,17 +426,22 @@ gained_fast <- round(sum(stats$Log10Rate_q01 > 0) / num_features, digits = 2)
 
 # stats for the results: rate (slow, medium, fast)
 
-y1_q01 <- round(sum(stats$Log10Rate_q01 < (-0.5)) / num_features, digits = 2) # slow
-y2_q01  <- round(sum(stats$Log10Rate_q01 > (-0.5) & stats$Log10Rate_q01 < 0.5) / num_features, digits = 2) # medium
-y3_q01  <- round(sum(stats$Log10Rate_q01>0.5) / num_features, digits = 2) # fast
+y1_q01 <- round(sum(log10(stats$Median_rate_q01) < (-0.5)) / num_features, digits = 2) # slow
+y1_q01
+y2_q01  <- round(sum(log10(stats$Median_rate_q01) > (-0.5) & log10(stats$Median_rate_q01) < 0.5) / num_features, digits = 2) # medium
+y2_q01
+y3_q01  <- round(sum(log10(stats$Median_rate_q01) > 0.5) / num_features, digits = 2) # fast
+y3_q01
 
 # Check whether the proportions sum up to 1
 y1_q01 + y2_q01 + y3_q01
 
-y1_q10 <- round(sum(stats$Log10Rate_q10<(-0.5))/num_features, digits = 2) # slow
-y2_q10  <- round(sum(stats$Log10Rate_q10 > (-0.5) & stats$Log10Rate_q10 < 0.5)/num_features, digits = 2) # medium
-y3_q10  <- round(sum(stats$Log10Rate_q10>0.5)/num_features, digits = 2) # fast
-y1_q10+y2_q10+y3_q10
+y1_q10 <- round(sum(log10(stats$Median_rate_q10) < (-0.5))/num_features, digits = 2) # slow
+y2_q10  <- round(sum(log10(stats$Median_rate_q10) > (-0.5) & log10(stats$Median_rate_q10) < 0.5)/num_features, digits = 2) # medium
+y3_q10  <- round(sum(log10(stats$Median_rate_q10) > 0.5) / num_features, digits = 2) # fast
+
+# Check whether the proportions sum up to 1
+y1_q10 + y2_q10 + y3_q10
 
 # stats for results: reports on rate of gain
 range_min_gain <- range(stats$Min_rate_q01)
@@ -491,35 +499,27 @@ rownames(basic_statistics) <- c("D", "Rate of loss", "Rate of gain")
 
 write.table(basic_statistics,"basic_statistics.csv", sep = " & ", quote = FALSE)
 
-ggplot(df_rates, aes(q10)) + geom_histogram(binwidth = 10)
-ggplot(df_rates, aes(q01)) + geom_histogram(binwidth = 10)
-
 # plots: correlation between proportion present and rates
 
 p_q10 <- ggplot(stats,aes(Median_rate_q10,Proportion_present)) +
   geom_point(col="red", alpha=0.9)
-
+p_q10
 p_q01 <- ggplot(stats,aes(Median_rate_q01,Proportion_present)) +
   geom_point(col="red", alpha=0.9)
-
-p_log10_q10 <- ggplot(stats,aes(Log10Rate_q10,Proportion_present)) +
-  geom_point(col="red", alpha=0.9)
-
-p_log10_q01 <- ggplot(stats,aes(Log10Rate_q01,Proportion_present)) +
-  geom_point(col="red", alpha=0.9)
+p_q01
 
 # coefficients: correlation between proportion present and rates
 cor_q01 <- cor.test(stats$Median_rate_q01, stats$Proportion_present, method="kendall") 
-cor_q01 # -0.32 - the feature is gained slower if more languages have the feature
+cor_q01 # -0.34 - the feature is gained slower if more languages have the feature
 cor_q10 <- cor.test(stats$Median_rate_q10, stats$Proportion_present, method="kendall") 
 cor_q10 # no correlation between the rate of loss and proportion present
 
 # set of stable features: phylogenetic signal below 0.5 and rate below or equal 0
-stable_features <- stats[median_d < 0.5 & stats$Log10Rate_q01 <= 0,]
-stable_features <- stable_features[stable_features$Log10Rate_q10 <= 0,]
+stable_features <- stats[median_d < 0.5 & log10(stats$Median_rate_q01) <= 0,]
+stable_features <- stable_features[log10(stable_features$Median_rate_q10) <= 0,]
 
 # what percentage is stable?
-round(length((rownames(stable_features)))/num_features, digits = 2)
+round(length((rownames(stable_features)))/num_features, digits = 2) # 0.67
 
 # get stable features with rate values below/above (add ! (NOT) for above) -2.5 -- these are almost invariable features or features present in all languages
 stable_features <- stable_features[((stable_features$Log10Rate_q01 + stable_features$Log10Rate_q10)/2)<(-4),] 
@@ -535,30 +535,31 @@ p_stable <- ggplot(stable_features,aes((Log10Rate_q01+Log10Rate_q10)/2,Median_D,
 # In some features there is no correlation.
 # Which features are these?
 
-stats$Feature[median_d<0.5 & stats$Log10Rate_q01>0] # GB187
-length(stats$Feature[median_d<0.5 & stats$Log10Rate_q10>0]) # "GB023" "GB103" "GB250" "GB275" "GB276" # 5
-length(stats$Feature[median_d>0.5 & stats$Log10Rate_q10<0]) # "GB021" "GB042" "GB043" "GB074" "GB086" "GB110" "GB166" "GB302" "GB316" "GB318" "GB431" "GB520" "TE050" "TE054" "TS001" # 15
-length(stats$Feature[median_d>0.5 & stats$Log10Rate_q01<0]) # "GB020" "GB021" "GB037" "GB042" "GB043" "GB074" "GB110" "GB138" "GB140" "GB166" "GB167" "GB264" "GB302" "GB316" "GB318" "GB322" "GB400" "GB431" "GB520" "TE050" "TS010"# 21
+stats$Feature[stats$Median_D < 0.5 & log10(stats$Median_rate_q01) > 0] # TE029
+stats$Feature[stats$Median_D < 0.5 & log10(stats$Median_rate_q10) > 0] # "GB023" "GB103" "GB275" "GB276" # 4
+stats$Feature[stats$Median_D > 0.5 & log10(stats$Median_rate_q10) < 0] #  "GB042" "GB043" "GB074" "GB110" "GB117" "GB150" "GB166" "GB302" "GB316" "GB318" "GB326" "GB431" "TE054" # 13
+stats$Feature[stats$Median_D > 0.5 & log10(stats$Median_rate_q01) < 0] # "GB020" "GB021" "GB037" "GB042" "GB043" "GB074" "GB110" "GB117" "GB138" "GB140" "GB150" "GB166" "GB167" "GB264" "GB302" "GB316" "GB318" "GB322" "GB400" "GB431" "GB520" "TE050" # 22
 
 ###################### Ancestral state reconstruction ######################
 
 # Plot the distribution of ancestral states reconstructed as 1
 
-h10 <- ggplot(stats, aes(x = p1_turkic)) + geom_histogram() + xlab('Turkic')
-h11 <- ggplot(stats, aes(x = p1_mongolic)) + geom_histogram() + xlab('Mongolic')
-h12 <- ggplot(stats, aes(x = p1_tungusic)) + geom_histogram() + xlab('Tungusic')
-h13 <- ggplot(stats, aes(x = p1_japonic)) + geom_histogram() + xlab('Japonic')
-h14 <- ggplot(stats, aes(x = p1_koreanic)) + geom_histogram() + xlab('Koreanic')
+h10 <- ggplot(stats, aes(x = p1_turkic)) + geom_histogram(binwidth = 0.1) + xlab('Turkic')
+h10
+h11 <- ggplot(stats, aes(x = p1_mongolic)) + geom_histogram(binwidth = 0.1) + xlab('Mongolic')
+h12 <- ggplot(stats, aes(x = p1_tungusic)) + geom_histogram(binwidth = 0.1) + xlab('Tungusic')
+h13 <- ggplot(stats, aes(x = p1_japonic)) + geom_histogram(binwidth = 0.1) + xlab('Japonic')
+h14 <- ggplot(stats, aes(x = p1_koreanic)) + geom_histogram(binwidth = 0.1) + xlab('Koreanic')
 
 ggsave("histograms-p1.pdf",(h10 | h11 | h12 | h13 | h14),  height=3, width=9)  # needs `patchwork` library
 
 # Which features can be reconstructed to the proto-language level with 95% probability?
 
-stats$Description[stats$p1_turkic >= 0.95]
-stats$Description[stats$p1_mongolic >= 0.95]
-stats$Description[stats$p1_tungusic >= 0.95]
-stats$Description[stats$p1_japonic >= 0.95]
-stats$Description[stats$p1_koreanic >= 0.95]
+stats$Feature_short[stats$p1_turkic >= 0.95]
+stats$Feature_short[stats$p1_mongolic >= 0.95]
+stats$Feature_short[stats$p1_tungusic >= 0.95]
+stats$Feature_short[stats$p1_japonic >= 0.95]
+stats$Feature_short[stats$p1_koreanic >= 0.95]
 
 # How many features can be reconstructed as present to the proto-language level with 75% probability?
 
@@ -621,27 +622,4 @@ rownames(overlaps) <- c("Turkic", "Mongolic", "Tungusic", "Koreanic", "Japonic")
 write.table(overlaps,"overlaps.csv", sep = " & ", quote = FALSE)
 
 
-######################  Write table for the supplementary materials ###################### 
-
-si_table <- data.frame(
-  Feature = features,
-  Description = description,
-  Median_D = sapply(features, function(f) round(median(df_d[df_d$Feature == f, 'D']),digits = 2 )),
-  SD_D = sapply(features, function(f) round(sd(df_d[df_d$Feature == f, 'D']),digits = 2)),
-  Median_rate_loss = sapply(features, function(f) round(median(df_rates[df_rates$Feature == f, 'q10'], na.rm=TRUE),digits = 2)),
-  SD_rate_loss = sapply(features, function(f) round(sd(df_rates[df_d$Feature == f, 'q10']),digits = 2)),
-  Median_rate_gain = sapply(features, function(f) round(median(df_rates[df_rates$Feature == f, 'q01'], na.rm=TRUE),digits = 2)),
-  SD_rate_gain = sapply(features, function(f) round(sd(df_rates[df_d$Feature == f, 'q01']),digits = 2)),
-  LogLikelihood = sapply(features, function(f) round(mean(df_states[df_states$Feature == f, 'LogLikelihood']),digits = 2)),
-  AICc=round(sapply(features, function(f)median(df_states[df_states$Feature == f, 'AICc'])),digits = 2),
-  p1_turkic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Turkic", 'p1']),digits = 2)),
-  p1_mongolic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Mongolic", 'p1']),digits = 2)),
-  p1_tungusic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Tungusic", 'p1']),digits = 2)),
-  p1_koreanic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Koreanic", 'p1']),digits = 2)),
-  p1_japonic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Japonic", 'p1']),digits = 2))
-)
-
-write.table(si_table,"SI_summary_table.csv", sep = "\t", row.names=FALSE, quote = TRUE)
-
-setwd("/Users/neshcheret/Documents/GitHub/stability")
 

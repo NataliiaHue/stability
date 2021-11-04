@@ -10,13 +10,13 @@ df_d <- df_d %>%
 
 write.csv(df, 'results_d.csv', quote=FALSE, row.names=FALSE)
 
-df_rates <- list.files("/Users/neshcheret/Documents/GitHub/stability/asr", "asr_rates.*.csv", full.names=TRUE) %>% 
+df_rates <- list.files("/Users/neshcheret/Documents/GitHub/stability/asr_29_oct", "asr_rates.*.csv", full.names=TRUE) %>% 
   lapply(read_csv) %>% 
   bind_rows
 
 write.csv(df_rates, 'results_asr_rates.csv', quote=FALSE, row.names=FALSE)
 
-df_states <- list.files("/Users/neshcheret/Documents/GitHub/stability/asr", "asr_states.*.csv", full.names=TRUE) %>% 
+df_states <- list.files("/Users/neshcheret/Documents/GitHub/stability/asr_29_oct", "asr_states.*.csv", full.names=TRUE) %>% 
   lapply(read_csv) %>% 
   bind_rows
 

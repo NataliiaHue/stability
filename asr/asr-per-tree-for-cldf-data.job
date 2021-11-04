@@ -1,6 +1,0 @@
-#!/bin/sh
-#SBATCH --job-name asr-per-tree-for-cldf-data
-#SBATCH --get-user-env
-#SBATCH --output asr-per-tree-for-cldf-data.%j.run
-#SBATCH --array=0-1000
-./asr-per-tree-for-cldf-data.R $SLURM_ARRAY_TASK_ID
