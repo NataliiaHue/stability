@@ -14,7 +14,6 @@ par(mar=c(0,0,0,0))
 long_lim <- c(20, 170)
 lat_lim  <- c(10, 90)
 map(xlim=long_lim, ylim=lat_lim, col="#F2F2F2", asp=1, fill=TRUE)
-#plot(world, xlim=long_lim, ylim=lat_lim, col="#F2F2F2", asp=1, fill=TRUE)
 map.axes()
 
 ############ plot points ############
