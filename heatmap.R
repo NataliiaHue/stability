@@ -4,12 +4,12 @@ library(ggplot2)
 library(viridis)
 library(patchwork)
 
-setwd( "/Users/neshcheret/Documents/GitHub")
+setwd( "/Users/neshcheret/Documents/GitHub/stability")
 
-df_states <- read.csv("stability/results_asr_states.csv", header = TRUE)
+asr_states_oct29 <- lapply(list.files('asr_29_oct', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 
 # select a model
-df_states <- df_states[df_states$Model != 'ARD', ]
+df_states <- asr_states_oct29[asr_states_oct29$Model != 'ARD', ]
 
 # read in features with short names
 categories <- read_tsv("hueblerstability/etc/features_with_categories.tsv")
@@ -17,29 +17,23 @@ categories <- read_tsv("hueblerstability/etc/features_with_categories.tsv")
 # average and collect results
 df <- df_states %>%
     inner_join(categories, by=c("Feature"="ID")) %>%
-    group_by(Feature_short, Clade)%>%
+    group_by(Feature_short, Clade) %>%
     summarise(Mean=mean(p1), Max=max(p1), Min=min(p1), Median=median(p1), Std=sd(p1))
     
 
 # split into 4 groups to make the plot more readable
-df$Dataset <- cut(1:850, 5, labels=1:5)
+df$Dataset <- cut(1:855, 3, labels=1:3)
 
-p1 <- ggplot(df[df$Dataset=='1',], aes(Feature_short, Clade, fill=Median)) +
+p1 <- ggplot(df[df$Dataset=='1',], aes(reorder(Feature_short, Median), Clade, fill=Median)) +
     geom_tile()
 
-p2 <- ggplot(df[df$Dataset=='2',], aes(Feature_short, Clade, fill=Median)) +
+p2 <- ggplot(df[df$Dataset=='2',], aes(reorder(Feature_short, Median), Clade, fill=Median)) +
     geom_tile()
 
-p3 <- ggplot(df[df$Dataset=='3',], aes(Feature_short, Clade, fill=Median)) +
+p3 <- ggplot(df[df$Dataset=='3',], aes(reorder(Feature_short, Median), Clade, fill=Median)) +
     geom_tile()
 
-p4 <- ggplot(df[df$Dataset=='4',], aes(Feature_short, Clade, fill=Median)) +
-    geom_tile()
-
-p5 <- ggplot(df[df$Dataset=='5',], aes(Feature_short, Clade, fill=Median)) +
-    geom_tile()
-
-pw <- (p1 / p2 / p3 / p4 / p5) + plot_layout(guides = 'collect')
+pw <- (p1 / p2 / p3 ) + plot_layout(guides = 'collect')
 pw <- pw & theme_classic() +
     theme(
         axis.text.x = element_text(angle = 45, hjust = 1),
@@ -53,3 +47,4 @@ pw <- pw & scale_fill_viridis(option="plasma", discrete=FALSE)
 # identical because of different ranges...
 setwd( "/Users/neshcheret/Documents/GitHub/stability")
 ggsave(filename="heatmap.pdf", pw, width=12, height=12)
+
