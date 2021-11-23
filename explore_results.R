@@ -1036,15 +1036,3 @@ theme(axis.title.y = element_blank(), axis.title.x = element_blank(), strip.text
 
 ggsave("asr-categories-normalized.pdf",(asr_function | asr_pos | asr_level),  height = 10, width = 8)  # needs `patchwork` library
 
-
-
-#### Random checks ####
-
-# Which language marks attributive possession by a prefix on the possessed?
-values %>%
-  filter(Value == "1", Parameter_ID == "GB431")
-"GB431" # Hateruma: baa-hi 1SG-house "my house"
-
-stats %>%
-  filter(Values >= 50) %>%
-  count()
