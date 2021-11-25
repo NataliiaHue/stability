@@ -58,7 +58,7 @@ data <- as.data.frame(data)
 # convert values to numeric data type
 data$value <- as.numeric(data$value)
 
-# load phylogenetic signal (D) results
+# collect phylogenetic signal (D) results
 d <- lapply(list.files('d', 'results.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 df_d <- as.data.frame(d)
 
@@ -73,7 +73,7 @@ df_rates <- as.data.frame(asr_rates)
 df_rates <- df_rates[df_rates$Model == 'ARD', ]
 
 # collect states results
-asr_states_oct29 <- lapply(list.files('asr_29_oct', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+asr_states<- lapply(list.files('asr', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 
 # the previous command produces a tibble -> convert to data.frame
 df_states <- as.data.frame(asr_states)
