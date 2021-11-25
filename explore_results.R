@@ -21,8 +21,6 @@ library(beanplot)
 # = 0 brownian, phylogenetic signal
 # < 0 extremely clumped
 
-setwd("/Users/neshcheret/Documents/GitHub/hueblerstability")
-
 ###### Prepare the data ###### 
 
 # read in the categories
@@ -38,7 +36,7 @@ description <- categories$Feature # Save the feature question in variable
 PoS <- categories$PoS # Save the part of speech in a variable
 Function <- categories$Function # Save the functional category in a variable
 Level <- categories$Level # Save the language level in a variable
-Feature_short <- categories$Feature_short
+Feature_short <- categories$Feature_short # Save short names in a variable
 
 values <- read_csv("cldf/values.csv")
 
@@ -48,27 +46,28 @@ data <- values %>%
   rename(ID = Parameter_ID, variable = Language_ID, value = Value) %>%
   mutate(value = replace(value, which(value == "?"), NA))
 
-data <- data[data$ID %in% categories$ID == TRUE, ]
+# throw out unnecessary features
+data <- data[data$ID %in% categories$ID == TRUE, ] 
+
+# check whether the number of features is correct
 length(unique(data$ID)) # 171
 
 # convert from tibble to a data frame
 data <- as.data.frame(data)
 
+# convert values to numeric data type
 data$value <- as.numeric(data$value)
 
-setwd("/Users/neshcheret/Documents/GitHub/stability")
-
 # load phylogenetic signal (D) results
-df_d <- read.csv('results_d.csv', header = TRUE)
+d <- lapply(list.files('d', 'results.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+df_d <- as.data.frame(d)
 
 # collect rates results
-asr_rates_oct29 <- lapply(list.files('asr_29_oct', 'asr_rates.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
-#write.csv(asr.oct29, 'results_asr_rates.csv', quote=FALSE, row.names=FALSE)
+asr_rates <- lapply(list.files('asr', 'asr_rates.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+# write.csv(asr_rates, 'results_asr_rates.csv', quote=FALSE, row.names=FALSE)
 
 # the previous command produces a tibble -> convert to data.frame
-df_rates <- as.data.frame(asr_rates_oct29)
-# df_rates <- as.data.frame(df_rates)
-# df_rates <- read.csv('results_asr_rates.csv', header=TRUE)
+df_rates <- as.data.frame(asr_rates)
 
 # throw away the other models except for the q01 and q10 rates found by the ARD model
 df_rates <- df_rates[df_rates$Model == 'ARD', ]
@@ -77,12 +76,12 @@ df_rates <- df_rates[df_rates$Model == 'ARD', ]
 asr_states_oct29 <- lapply(list.files('asr_29_oct', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 
 # the previous command produces a tibble -> convert to data.frame
-df_states <- as.data.frame(asr_states_oct29)
-#df_states <- read.csv('results_asr_states.csv', header = TRUE)
+df_states <- as.data.frame(asr_states)
 
 # throw away the other models except for the states found by the ARD model
 df_states <- df_states[df_states$Model == 'ARD', ]
 
+# check that the number of features is correct
 length(unique(df_rates$Feature)) # 171
 length(unique(df_states$Feature)) # 171
 length(unique(df_d$Feature)) # 171
@@ -133,14 +132,17 @@ stats[stats$Present==0,]
 # Check if there are cases with missing values
 stats[!complete.cases(stats),]
 
+# check whether any features have rate of 0 - these turn to -Inf after log10 transformation
 sum(stats$Median_rate_q10 == 0)
 sum(stats$Median_rate_q01 == 0)
 
 stats_no_inf <- stats
 
+# replace 0 values with values approaching 0
 stats_no_inf$Median_rate_q10[stats_no_inf$Median_rate_q10 == 0] <- 0.0000000001
 stats_no_inf$Median_rate_q01[stats_no_inf$Median_rate_q01 == 0] <- 0.0000000001
 
+# prepare a data frame for electronic supplementary materials
 stats_esm <- stats_with_log10 %>%
   select(Values, Present, Median_D, q10_log10,  q01_log10,  p1_turkic,  p1_mongolic, p1_tungusic, p1_koreanic, p1_japonic)
   
@@ -149,13 +151,14 @@ stats_esm <- as.data.frame(stats_esm)
 # Write table for ESM
 write.table(stats_esm,"stats_esm.csv", sep = " & ", quote = FALSE)
 
-# Set theme_classic() as default for all plots
-theme_set(theme_classic())
-
+# add a column with log10-transformed rates
 stats_with_log10 <- stats_no_inf %>%
   mutate(q01_log10 = round(log10(Median_rate_q01), digits = 2),
          q10_log10 = round(log10(Median_rate_q10), digits = 2))
 
+
+# Set theme_classic() as default for all plots
+theme_set(theme_classic())
 
 ###### Histograms with D and rate  #######
 
@@ -271,189 +274,6 @@ stats_no_inf %>%
 
 stats_missing_less_fifty <- stats_no_inf %>%
   filter(Proportion_missing < 0.5)
-
-##### Parallel boxplots for function and rate ##### 
-
-b1 <- ggplot(stats_no_inf, aes(x = Function, y = Median_rate_q01)) + 
-  geom_boxplot() +
-  scale_y_log10() +
-  geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 0 to 1, feature gain') +
-  theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
-b1
-
-b2 <- ggplot(stats_no_inf, aes(x = Function, y = log10(Median_rate_q10))) + 
-  geom_boxplot() +
-  geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 1 to 0, feature loss') +
-  theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
-b2
-
-b3 <- ggplot(stats, aes(x = Function, y = Median_D)) + 
-  geom_boxplot() +
-  geom_hline(yintercept=0.5, col="red") +
-  xlab('Function') +
-  ylab('Phylogenetic signal (D)') +
-  theme(axis.text.x = element_text(angle = 90,hjust=1), axis.ticks.x = element_blank())
-b3
-
-ggsave("boxplots-function.pdf", b1  /  b2 / b3,height=10,width=7)
-
-# Parallel boxplots for level and rate
-
-llevels <- factor(stats$Level, levels = c("phonological shape", "word", "NP", "clause", "other"))
-
-b4 <- ggplot(stats, aes(x = llevels, y = log10(Median_rate_q01))) + 
-  geom_boxplot() +
-  geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 0 to 1, feature gain') +
-  theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
-b4
-
-b41 <-  ggplot(stats, aes(x = Level, y = Median_rate_q10, color = Level)) + 
-  scale_y_log10() +
-  geom_boxplot()
-  #theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
-
-b41
-
-b5 <- ggplot(stats, aes(x = llevels, y = log10(Median_rate_q10))) + 
-  geom_boxplot() +
-  geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 1 to 0, feature loss') +
-  theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
-b5
-
-b6 <- ggplot(stats, aes(x = llevels, y = Median_D)) + 
-  geom_boxplot() +
-  geom_hline(yintercept=0.5, col="red") +
-  xlab('Level') +
-  ylab('Phylogenetic signal (D)') +
-  theme(axis.text.x = element_text(angle = 90,hjust=0.95,vjust=0.2), axis.ticks.x = element_blank())
-b6
-
-ggsave("boxplots-level.pdf", b4  /  b5 / b6 ,height=10,width=7)
-
-# Parallel boxplots for PoS and rate
-
-b7 <- ggplot(stats, aes(x = PoS, y = log10(Median_rate_q01))) + 
-  geom_boxplot() +
-  geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 0 to 1, feature gain') +
-  theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
-b7
-b8 <- ggplot(stats, aes(x = PoS, y = log10(Median_rate_q10))) + 
-  geom_boxplot() +
-  geom_hline(yintercept=0, col="red") +
-  ylab('Transition from 1 to 0, feature loss') +
-  theme(axis.text.x = element_blank(),axis.title.x = element_blank(), axis.ticks.x = element_blank())
-
-b9 <- ggplot(stats, aes(x = PoS, y = Median_D)) + 
-  geom_boxplot() +
-  geom_hline(yintercept=0.5, col="red") +
-  xlab('Part of speech') +
-  ylab('Phylogenetic signal (D)') +
-  theme(axis.text.x = element_text(angle = 90,hjust=0.95,vjust=0.2), axis.ticks.x = element_blank())
-
-ggsave("boxplots-pos.pdf", b7 / b8 / b9, height = 10, width = 7)
-
-###### Ridgeplots for categories ###### 
-
-## Function
-r_1 <- ggplot(stats_no_inf, aes(x = log10(Median_rate_q01), y = Function, fill = Function)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  geom_vline(xintercept=0) +
-  theme(axis.title.y = element_blank()) +
-  xlab("Rate of gain, 0 -> 1") +
-  guides(fill="none")
-r_1
-
-point_1 <- ggplot(stats_no_inf, aes(x = log10(Median_rate_q01), y = Function, color = Function)) +
-  geom_point(position = "dodge", alpha = 0.3) +
-  geom_vline(xintercept=0) +
-  theme(axis.title.y = element_blank()) +
-  xlab("Rate of gain, 0 -> 1") +
-  guides(fill="none")
-point_1
-
-r_2 <- ggplot(stats_no_inf, aes(x = log10(Median_rate_q10), y = Function, fill = Function)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank()) +
-  xlab("Rate of loss, 1 -> 0") +
-  geom_vline(xintercept=0) +
-  guides(fill="none")
-r_2
-
-r_3 <- ggplot(stats_no_inf, aes(x = Median_D, y = Function, fill = Function)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  geom_vline(xintercept=0.5) +
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.ticks.y = element_blank()) +
-  xlab("Median D") +
-  guides(fill="none")
-r_3
-
-#setwd("/Users/neshcheret/Documents/GitHub/stability")
-ggsave("ridgeplots-function.pdf", (r_1 | r_2 | r_3 ),  height = 3, width = 8)
-
-### PoS ###
-
-r_4 <- ggplot(stats_no_inf, aes(x = log10(Median_rate_q01), y = PoS, fill = PoS)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  geom_vline(xintercept=0) +
-  theme(axis.title.y = element_blank()) +
-  xlab("Rate of gain, 0 -> 1") +
-  guides(fill="none")
-r_4
-
-r_5 <- ggplot(stats_no_inf, aes(x = log10(Median_rate_q10), y = PoS, fill = PoS)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank()) +
-  xlab("Rate of loss, 1 -> 0") +
-  geom_vline(xintercept=0) +
-  guides(fill="none")
-r_5
-
-r_6 <- ggplot(stats_no_inf, aes(x = Median_D, y = PoS, fill = PoS)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  geom_vline(xintercept=0.5) +
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.ticks.y = element_blank()) +
-  xlab("Median D") +
-  guides(fill="none")
-r_6
-
-#setwd("/Users/neshcheret/Documents/GitHub/stability")
-ggsave("ridgeplots-pos.pdf", (r_4 | r_5 | r_6 ),  height = 3, width = 8)
-
-### Level ###
-
-llevels <- factor(stats$Level, levels = c("phonological shape", "word", "NP", "clause", "other"))
-
-r_7 <- ggplot(stats_no_inf, aes(x = log10(Median_rate_q01), y = llevels, fill = llevels)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  geom_vline(xintercept=0) +
-  theme(axis.title.y = element_blank()) +
-  xlab("Rate of gain, 0 -> 1") +
-  guides(fill="none")
-r_7
-
-r_8 <- ggplot(stats_no_inf, aes(x = log10(Median_rate_q10), y = llevels, fill = llevels)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.title.y = element_blank()) +
-  xlab("Rate of loss, 1 -> 0") +
-  geom_vline(xintercept=0) +
-  guides(fill="none")
-r_8
-
-r_9 <- ggplot(stats_no_inf, aes(x = Median_D, y = llevels, fill = llevels)) +
-  geom_density_ridges_gradient(rel_min_height=0.01, scale=1) +
-  geom_vline(xintercept=0.5) +
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.ticks.y = element_blank()) +
-  xlab("Median D") +
-  guides(fill="none")
-r_9
-
-#setwd("/Users/neshcheret/Documents/GitHub/stability")
-ggsave("ridgeplots-level.pdf", (r_7 | r_8 | r_9 ),  height = 3, width = 8)
 
 ###### Facets for categories ######### 
 
@@ -723,39 +543,7 @@ rownames(rate_statistics) <- c("Slow", "Medium", "Fast")
 
 write.table(rate_statistics,"rate_statistics.csv", sep = " & ", quote = FALSE)
 
-######  basic stats for the results - overall table ###### 
-
-min_d <- round(min(df_d$D), digits = 2)
-max_d <- round(max(df_d$D), digits = 2)
-median_d <- round(median(df_d$D), digits = 2)
-sd_d <- round(sd(df_d$D), digits = 2)
-
-min_loss <- round(min(df_rates$q10), digits = 2)
-max_loss <- round(max(df_rates$q10), digits = 2)
-median_loss <- round(median(df_rates$q10), digits = 2)
-sd_loss <- round(sd(df_rates$q10), digits = 2)
-
-min_loss_log10 <- stats_no_inf$
-max_loss <- round(max(df_rates$q10), digits = 2)
-median_loss <- round(median(df_rates$q10), digits = 2)
-sd_loss <- round(sd(df_rates$q10), digits = 2)
-
-min_gain <- round(min(df_rates$q01), digits = 2)
-max_gain <- round(max(df_rates$q01), digits = 2)
-median_gain <- round(median(df_rates$q01), digits = 2)
-sd_gain <-round(sd(df_rates$q01), digits = 2)
-
-basic_statistics<- data.frame(
-  Min = c(min_d, min_loss, min_gain),
-  Median = c(median_d, median_loss, median_gain),
-  Max = c(max_d, max_loss, max_gain),
-  Sd = c(sd_d, sd_loss, sd_gain)
-)
-
-rownames(basic_statistics) <- c("D", "Rate of loss", "Rate of gain")
-
-write.table(basic_statistics,"basic_statistics.csv", sep = " & ", quote = FALSE)
-
+######  basic stats for the results ###### 
 
 basic_stats_stats <- stats_with_log10 %>%
   summarise(min_d = round(min(Median_D), digits = 2), max_d = max(Median_D), median_d = median(Median_D), sd_d = round(sd(Median_D), digits = 2), 
@@ -793,7 +581,7 @@ p_stable <- ggplot(stable_features,aes((Log10Rate_q01+Log10Rate_q10)/2,Median_D,
   ylab("Median of D")
 
 # Why take into account both phylogenetic signal and rate?
-# In some features there is no correlation.
+# In some features there is no overlap
 # Which features are these?
 
 stats_no_inf$Feature[stats_no_inf$Median_D < 0.5 & log10(stats_no_inf$Median_rate_q01) > 0] # TE029
@@ -823,11 +611,6 @@ stats_function <- stats_no_inf %>%
 stats_function
 write.table(stats_function,"stats_function.csv", sep = " & ", quote = FALSE, row.names = FALSE)
 
-stats_function_long <- stats_function %>%
-  pivot_longer(cols = starts_with("Median"),
-               names_to = "Metric",
-               values_to = "Value")
-
 stats_pos <- stats_no_inf %>%
   mutate(Median_rate_q10 = log10(Median_rate_q10), Median_rate_q01 = log10(Median_rate_q01)) %>%
   group_by(PoS) %>%
@@ -837,9 +620,6 @@ stats_pos <- stats_no_inf %>%
 
 stats_pos
 write.table(stats_pos,"stats_pos.csv", sep = " & ", quote = FALSE, row.names = FALSE)
-
-ggplot(stats_function_long, aes(x = Value, y = Function, color = Metric)) +
-  geom_point()
 
 ###### Ancestral state reconstruction###### 
 
