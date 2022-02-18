@@ -10,6 +10,10 @@ Results of the estimation of the phylogenetic signal, D.
 ## glottolog
 Files necessary to construct a glottolog classification tree (for instructions, see the readme inside).
 ## scripts
-Scripts necessary for running the analysis and evaluating the results (for instructions, see the readme inside).
+Scripts necessary for running the analysis and evaluating the results (for instructions, see the readme inside)
 ## plots
-Plots produced by the scripts.
+Plots produced by the scripts
+## cluster
+Files necessary to run the analysis on the cluster
+## data
+Complementary data (for main data, see [hueblerstability-cldf](https://github.com/cldf-datasets/hueblerstability)
