@@ -4,15 +4,13 @@ library(ggplot2)
 library(viridis)
 library(patchwork)
 
-setwd( "/Users/neshcheret/Documents/GitHub/stability")
-
 asr_states_oct29 <- lapply(list.files('asr_29_oct', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 
 # select a model
 df_states <- asr_states_oct29[asr_states_oct29$Model != 'ARD', ]
 
 # read in features with short names
-categories <- read_tsv("hueblerstability/etc/features_with_categories.tsv")
+categories <- read_tsv("./hueblerstability/etc/features_with_categories.tsv")
 
 # average and collect results
 df <- df_states %>%
@@ -42,9 +40,5 @@ pw <- pw & theme_classic() +
     )
 pw <- pw & scale_fill_viridis(option="plasma", discrete=FALSE)
 
-
-# I do not know why there are two guides. Well, I think it's because the guides are not
-# identical because of different ranges...
-setwd( "/Users/neshcheret/Documents/GitHub/stability")
 ggsave(filename="heatmap.pdf", pw, width=12, height=12)
 

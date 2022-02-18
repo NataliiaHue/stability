@@ -29,7 +29,7 @@ library(beanplot)
 #read in coded values
 # values <- read_csv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/cldf/values.csv")
 
-categories <- read_tsv("etc/features_with_categories.tsv")
+categories <- read_tsv("./hueblerstability/etc/features_with_categories.tsv")
 
 features <- categories$ID # Save feature names in a variable
 description <- categories$Feature # Save the feature question in variable
@@ -38,7 +38,7 @@ Function <- categories$Function # Save the functional category in a variable
 Level <- categories$Level # Save the language level in a variable
 Feature_short <- categories$Feature_short # Save short names in a variable
 
-values <- read_csv("cldf/values.csv")
+values <- read_csv("./hueblerstability/cldf/values.csv")
 
 # Merge the data
 data <- values %>%
@@ -59,21 +59,22 @@ data <- as.data.frame(data)
 data$value <- as.numeric(data$value)
 
 # collect phylogenetic signal (D) results
-d <- lapply(list.files('d', 'results.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+d <- lapply(list.files('./stability/d', 'results.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 df_d <- as.data.frame(d)
 
 # collect rates results
-asr_rates <- lapply(list.files('asr', 'asr_rates.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+asr_rates <- lapply(list.files('./stability/asr', 'asr_rates.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 # write.csv(asr_rates, 'results_asr_rates.csv', quote=FALSE, row.names=FALSE)
 
 # the previous command produces a tibble -> convert to data.frame
 df_rates <- as.data.frame(asr_rates)
 
 # throw away the other models except for the q01 and q10 rates found by the ARD model
-df_rates <- df_rates[df_rates$Model == 'ARD', ]
+df_rates_ard <- df_rates[df_rates$Model == 'ARD', ]
+df_rates_er <- df_rates[df_rates$Model == 'ER', ]
 
 # collect states results
-asr_states<- lapply(list.files('asr', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+asr_states<- lapply(list.files('./stability/asr', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 
 # the previous command produces a tibble -> convert to data.frame
 df_states <- as.data.frame(asr_states)
@@ -100,20 +101,30 @@ stats <- data.frame(
     Present = sapply(features, function(f) sum(na.exclude(data[data$ID == f, 'value']))), # Number of 1's
     Proportion_present = sapply(features, function(f) round(sum(na.exclude(data[data$ID == f, 'value']))/length(na.exclude(data[data$ID == f, 'value'])), digits = 2)), # Proportion of 1's
     Proportion_missing = sapply(features, function(f) round(sum(is.na(data[data$ID == f, 'value']))/length(is.na(data[data$ID == f, 'value'])), digits = 2)), # Proportion of NA's
+    ######### D statistics ######### 
     Median_D = sapply(features, function(f) round(median(df_d[df_d$Feature == f, 'D']), digits = 2)),
     SD_D = sapply(features, function(f) round(sd(df_d[df_d$Feature == f, 'D']), digits = 2)),
     Min_D = sapply(features, function(f) round(min(df_d[df_d$Feature == f, 'D']), digits = 2)),
     Max_D = sapply(features, function(f) round(max(df_d[df_d$Feature == f, 'D']), digits = 2)),
-    LogLikelihood_rates = sapply(features, function(f) round(mean(df_rates[df_rates$Feature == f, 'LogLikelihood']), digits = 2)),
-    AICc_rates = round(sapply(features, function(f) round(median(df_rates[df_rates$Feature == f, 'AICc']), digits = 2))),
-    Median_rate_q10 = sapply(features, function(f) round(median(df_rates[df_rates$Feature == f, 'q10'], na.rm = TRUE), digits = 2)),
-    SD_rate_q10 = sapply(features, function(f) round(sd(df_rates[df_rates$Feature == f, 'q10']), digits = 2)),
-    Median_rate_q01 = sapply(features, function(f) round(median(df_rates[df_rates$Feature == f, 'q01'], na.rm = TRUE), digits = 2)),
-    SD_rate_q01 = sapply(features, function(f) round(sd(df_rates[df_rates$Feature == f, 'q01']), digits = 2)),
-    Min_rate_q10 = sapply(features, function(f) round(min(df_rates[df_rates$Feature == f, 'q10'], na.rm=TRUE), digits = 2)),
-    Min_rate_q01 = sapply(features, function(f) round(min(df_rates[df_rates$Feature == f, 'q01'], na.rm=TRUE), digits = 2)),
-    Max_rate_q10 = sapply(features, function(f) round(max(df_rates[df_rates$Feature == f, 'q10'], na.rm=TRUE), digits = 2)),
-    Max_rate_q01 = sapply(features, function(f) round(max(df_rates[df_rates$Feature == f, 'q01'], na.rm=TRUE), digits = 2)),
+    ######### ER statistics ######### 
+    LogLikelihood_rates_er = sapply(features, function(f) round(mean(df_rates_er[df_rates_er$Feature == f, 'LogLikelihood']), digits = 2)),
+    AICc_rates_er = round(sapply(features, function(f) round(median(df_rates_er[df_rates_er$Feature == f, 'AICc']), digits = 2))),
+    Median_rate_er = sapply(features, function(f) round(median(df_rates_er[df_rates_er$Feature == f, 'q10'], na.rm = TRUE), digits = 2)),
+    SD_rate_er = sapply(features, function(f) round(sd(df_rates_er[df_rates_er$Feature == f, 'q10']), digits = 2)),
+    Min_rate_er = sapply(features, function(f) round(min(df_rates_er[df_rates_er$Feature == f, 'q10'], na.rm=TRUE), digits = 2)),
+    Max_rate_er = sapply(features, function(f) round(max(df_rates_er[df_rates_er$Feature == f, 'q10'], na.rm=TRUE), digits = 2)),
+    ######### ARD statistics ######### 
+    LogLikelihood_rates_ard = sapply(features, function(f) round(mean(df_rates_ard[df_rates_ard$Feature == f, 'LogLikelihood']), digits = 2)),
+    AICc_rates_ard = round(sapply(features, function(f) round(median(df_rates_ard[df_rates_ard$Feature == f, 'AICc']), digits = 2))),
+    Median_rate_q10 = sapply(features, function(f) round(median(df_rates_ard[df_rates_ard$Feature == f, 'q10'], na.rm = TRUE), digits = 2)),
+    SD_rate_q10 = sapply(features, function(f) round(sd(df_rates_ard[df_rates_ard$Feature == f, 'q10']), digits = 2)),
+    Median_rate_q01 = sapply(features, function(f) round(median(df_rates_ard[df_rates_ard$Feature == f, 'q01'], na.rm = TRUE), digits = 2)),
+    SD_rate_q01 = sapply(features, function(f) round(sd(df_rates_ard[df_rates_ard$Feature == f, 'q01']), digits = 2)),
+    Min_rate_q10 = sapply(features, function(f) round(min(df_rates_ard[df_rates_ard$Feature == f, 'q10'], na.rm=TRUE), digits = 2)),
+    Min_rate_q01 = sapply(features, function(f) round(min(df_rates_ard[df_rates_ard$Feature == f, 'q01'], na.rm=TRUE), digits = 2)),
+    Max_rate_q10 = sapply(features, function(f) round(max(df_rates_ard[df_rates_ard$Feature == f, 'q10'], na.rm=TRUE), digits = 2)),
+    Max_rate_q01 = sapply(features, function(f) round(max(df_rates_ard[df_rates_ard$Feature == f, 'q01'], na.rm=TRUE), digits = 2)),
+    ######### States ARD statistics ######### 
     LogLikelihood_states = sapply(features, function(f) round(mean(df_states[df_states$Feature == f, 'LogLikelihood']), digits = 2)),
     AICc_states = round(sapply(features, function(f) round(median(df_states[df_states$Feature == f, 'AICc']), digits = 2))),
     p1_turkic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Turkic", 'p1']), digits = 2)),
@@ -123,7 +134,6 @@ stats <- data.frame(
     p1_japonic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Japonic", 'p1']), digits = 2))
    )
 
-setwd("/Users/neshcheret/Documents/GitHub/stability")
 write.table(stats,"SI_summary_table_Oct_29.csv", sep = "\t", row.names=FALSE, quote = TRUE)
 
 # Check if there are uninformative features with all absent
@@ -135,27 +145,45 @@ stats[!complete.cases(stats),]
 # check whether any features have rate of 0 - these turn to -Inf after log10 transformation
 sum(stats$Median_rate_q10 == 0)
 sum(stats$Median_rate_q01 == 0)
+sum(stats$Median_rate_er == 0)
 
 stats_no_inf <- stats
 
 # replace 0 values with values approaching 0
 stats_no_inf$Median_rate_q10[stats_no_inf$Median_rate_q10 == 0] <- 0.0000000001
+#stats_no_inf$SD_rate_q10[stats_no_inf$SD_rate_q10 == 0] <- 0.0000000001
 stats_no_inf$Median_rate_q01[stats_no_inf$Median_rate_q01 == 0] <- 0.0000000001
-
-# prepare a data frame for electronic supplementary materials
-stats_esm <- stats_with_log10 %>%
-  select(Values, Present, Median_D, q10_log10,  q01_log10,  p1_turkic,  p1_mongolic, p1_tungusic, p1_koreanic, p1_japonic)
-  
-stats_esm <- as.data.frame(stats_esm)
-
-# Write table for ESM
-write.table(stats_esm,"stats_esm.csv", sep = " & ", quote = FALSE)
+#stats_no_inf$SD_rate_q01[stats_no_inf$SD_rate_q01 == 0] <- 0.0000000001
+stats_no_inf$Median_rate_er[stats_no_inf$Median_rate_er == 0] <- 0.0000000001
+#stats_no_inf$SD_rate_er[stats_no_inf$SD_rate_er == 0] <- 0.0000000001
 
 # add a column with log10-transformed rates
 stats_with_log10 <- stats_no_inf %>%
   mutate(q01_log10 = round(log10(Median_rate_q01), digits = 2),
-         q10_log10 = round(log10(Median_rate_q10), digits = 2))
+         q01_log10_sd = round(log10(SD_rate_q01), digits = 2),
+         q10_log10 = round(log10(Median_rate_q10), digits = 2),
+         q10_log10_sd = round(log10(SD_rate_q10), digits = 2),
+         er_log10 = round(log10(Median_rate_er), digits = 2),
+         er_log10_sd = round(log10(SD_rate_er), digits = 2))
 
+# prepare a data frame for electronic supplementary materials
+stats_esm_d <- stats_with_log10 %>%
+  select(Values, Present, Median_D, SD_D)
+
+stats_esm_rates <- stats_with_log10 %>%
+  select(er_log10, er_log10_sd, q10_log10, SD_rate_q10, q01_log10, SD_rate_q01)
+
+stats_esm_states <- stats_with_log10 %>%
+  select(p1_turkic,  p1_mongolic, p1_tungusic, p1_koreanic, p1_japonic)
+  
+stats_esm_d <- as.data.frame(stats_esm_d)
+stats_esm_rates <- as.data.frame(stats_esm_rates)
+stats_esm_states <- as.data.frame(stats_esm_states)
+
+# Write table for ESM
+write.table(stats_esm_d,"stats_esm_d.csv", sep = " & ", quote = FALSE)
+write.table(stats_esm_rates,"stats_esm_rates.csv", sep = " & ", quote = FALSE)
+write.table(stats_esm_states,"stats_esm_states.csv", sep = " & ", quote = FALSE)
 
 # Set theme_classic() as default for all plots
 theme_set(theme_classic())
@@ -192,12 +220,11 @@ p_q01
 
 # coefficients: correlation between proportion present and rates
 cor_d_pres <- cor.test(stats_no_inf$Median_D, stats_no_inf$Proportion_present, method="kendall") 
-cor_d_pres
-cor_q01_pres # -0.34 - the feature is gained slower if more languages have the feature
+cor_d_pres # -0.22
 cor_q01_pres <- cor.test(stats_no_inf$Median_rate_q01, stats_no_inf$Proportion_present, method="kendall") 
-cor_q01_pres # -0.34 - the feature is gained slower if more languages have the feature
+cor_q01_pres # -0.034 - the feature is gained slower if more languages have the feature
 cor_q10_pres <- cor.test(stats_no_inf$Median_rate_q10, stats_no_inf$Proportion_present, method="kendall") 
-cor_q10_pres # no correlation between the rate of loss and proportion present
+cor_q10_pres # -0.18 no correlation between the rate of loss and proportion present
 
 # what is the relationship between the median _D_ score and the number of present characters
 present_d <- ggplot(stats_no_inf, aes(x = Present, y = Median_D, color = Values)) +
@@ -308,7 +335,6 @@ f_3 <- ggplot(stats_no_inf, aes(x = Median_D, fill = Function)) +
   facet_grid("Function")
 f_3
 
-setwd("/Users/neshcheret/Documents/GitHub/stability")
 ggsave("facets-function.pdf", (f_1 | f_2 | f_3 ),  height = 7, width = 8)
 
 # Level
@@ -343,7 +369,6 @@ f_6 <- ggplot(stats_no_inf, aes(x = Median_D, fill = llevels)) +
   facet_grid(factor(Level, levels = level_levels)~.)
 f_6
 
-setwd("/Users/neshcheret/Documents/GitHub/stability")
 ggsave("facets-level.pdf", (f_4 | f_5 | f_6 ),  height = 3, width = 8)
 
 # PoS
@@ -375,7 +400,6 @@ f_9 <- ggplot(stats_no_inf, aes(x = Median_D, fill = PoS)) +
   facet_grid("PoS")
 f_9
 
-setwd("/Users/neshcheret/Documents/GitHub/stability")
 ggsave("facets-pos.pdf", (f_7 | f_8 | f_9 ),  height = 5, width = 8)
 
 
@@ -444,22 +468,31 @@ ggsave('ridgeplot-q10.pdf', height=20, width=10)
 ###### Calculate and plot correlations ###### 
 
 # Save the median D values in a variable
-median_d <- stats_no_inf$Median_D
-rate_loss <- log10(stats_no_inf$Median_rate_q10)
-rate_gain <- log10(stats_no_inf$Median_rate_q01)
+median_d <- stats_with_log10$Median_D
+rate_loss <- stats_with_log10$q10_log10
+rate_gain <- stats_with_log10$q01_log10
 
 # correlation between D and 10 transition rate
 corr_q10 <- cor.test(median_d,rate_loss, method="kendall")
-corr_q10 # 0.5099
+corr_q10 # 0.507632 
 # correlation between D and 01 transition rate
 corr_q01 <- cor.test(median_d,rate_gain, method="kendall")
-corr_q01 # 0.4982
+corr_q01 # 0.4965682 
 
 # plot the correlation between phylogenetic signal and q10 transition rate
 
-ph_df_rates_q10 <- ggplot(stats_no_inf,aes(Median_rate_q10, Median_D, color=Present)) +
+stats_with_log10_filter <- stats_with_log10 %>%
+  filter(q10_log10 != -10.00) %>%
+  filter(q01_log10 != -10.00)
+
+stats_with_log10_infinity_q10 <- stats_with_log10 %>%
+  filter(q10_log10 == -10.00)
+
+stats_with_log10_infinity_q01 <- stats_with_log10 %>%
+  filter(q01_log10 == -10.00)
+
+ph_df_rates_q10 <- ggplot(stats_with_log10_filter,aes(q10_log10, Median_D, color=Present)) +
   geom_point() +
-  scale_x_log10() +
   theme_classic() +
   geom_smooth(method='lm', formula= y~x) +
   annotate(geom = "text", x = 1, y = 2, label = paste("tau = ",round(corr_q10$estimate, digits = 2))) +
@@ -469,9 +502,8 @@ ph_df_rates_q10
 
 # plot the correlation between phylogenetic signal and q01 transition rate
 round(corr_q01$estimate, digits = 2)
-ph_df_rates_q01 <- ggplot(stats_no_inf,aes(Median_rate_q01,Median_D, color=Present)) +
+ph_df_rates_q01 <- ggplot(stats_with_log10_filter,aes(q01_log10,Median_D, color=Present)) +
   geom_point() +
-  scale_x_log10() +
   theme_classic() +
   geom_smooth(method='lm', formula= y~x) +
   annotate(geom="text", x = 1, y = 2.5, label = paste("tau = ",round(corr_q01$estimate, digits = 2))) +
@@ -479,7 +511,42 @@ ph_df_rates_q01 <- ggplot(stats_no_inf,aes(Median_rate_q01,Median_D, color=Prese
   ylab("Median (D)")
 ph_df_rates_q01
 
-ggsave("correlation_no_inf.pdf", ph_df_rates_q10 / ph_df_rates_q01, height=5,width=5)
+ggsave("correlation_no_inf_filtered.pdf", ph_df_rates_q10 / ph_df_rates_q01, height=5,width=5)
+
+# plot with rates near zero (before log10 transformation)
+rate_q10_zero_d <- ggplot(stats_with_log10_infinity_q10,aes(Median_D)) +
+  geom_histogram(binwidth = 0.5) +
+  theme_classic() +
+  ylab("Log10 rate (feature loss)") +
+  xlab("Median (D)")
+
+rate_q10_zero_d
+
+rate_q01_zero_d <- ggplot(stats_with_log10_infinity_q01,aes(Median_D)) +
+  geom_histogram(binwidth = 0.5) +
+  theme_classic() +
+  ylab("Log10 rate (feature gain)") +
+  xlab("Median (D)")
+
+rate_q01_zero_d
+
+ggsave("quick-histograms-rates-zero.pdf", rate_q10_zero_d / rate_q01_zero_d, height=5,width=5)
+
+rate_q10_zero_d_present <- ggplot(stats_with_log10_infinity_q10,aes(Median_D, Present, color = Present)) +
+  geom_point() +
+  theme_classic() +
+  xlab("Median D") +
+  ylab("Present")
+
+rate_q10_zero_d_present
+
+rate_q01_zero_d_present <- ggplot(stats_with_log10_infinity_q01,aes(Median_D, Present, color = Present)) +
+  geom_point() +
+  theme_classic() +
+  xlab("Median D") +
+  ylab("Present")
+
+rate_q01_zero_d_present
 
 ######  stats for the results: phylogenetic signal ###### 
 

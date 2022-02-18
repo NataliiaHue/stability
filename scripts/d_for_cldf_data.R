@@ -26,7 +26,8 @@ add_outgroup_to_tree <- function(tree, tipname="ROOT"){
 
 
 # Read in coded values
-values <- read_csv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/cldf/values.csv")
+# values <- read_csv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/cldf/values.csv")
+values <- read_csv("./hueblerstability/cldf/values.csv")
 
 # Merge the data
 data <- values %>%
@@ -72,11 +73,9 @@ for (cf in constant_features) {
 
 data <- data[data$ID %in% constant_features == FALSE, ]
 
-setwd("/Users/neshcheret/Documents/GitHub/articles/stability")
-
 # read in the phylogeny
-#trees <- read.nexus("beast/stability_covarion_relaxed.1000.trees")
-trees <- read.nexus("https://raw.githubusercontent.com/NataliiaHue/stability/main/beast/stability_covarion_relaxed.1000.trees")
+# trees <- read.nexus("https://raw.githubusercontent.com/NataliiaHue/stability/main/beast/stability_covarion_relaxed.1000.trees")
+trees <- read.nexus("./stability/beast/stability_covarion_relaxed.1000.trees")
 
 
 # calculate d for each feature

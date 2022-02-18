@@ -1,8 +1,7 @@
 library(ape) # for reading in nexus files
 
-setwd("/Users/neshcheret/Documents/GitHub/articles/stability")
 data <- read.csv(
-  "all_languages_data_categories_full_names.csv",
+  "./all_languages_data_categories_full_names.csv",
   sep = ";",
   strip.white = TRUE,
   na.strings = c("?", "-"),
@@ -28,10 +27,8 @@ data <- unlist(t(data))
 data <- as.data.frame(data)
 data_sorted <- data[mcct.tree$tip.label,]
 
-setwd("/Users/neshcheret/Documents/GitHub/articles/stability/beast")
-
 # read in the tree
-mcct.tree<-read.nexus("stability_covarion_relaxed.mcct_renamed.trees")
+mcct.tree<-read.nexus("./beast/stability_covarion_relaxed.mcct_renamed.trees")
 
 data_feature <- function(feature_ID){
   data_frame <- cbind(data_sorted$V1, data_sorted[, colnames(data_sorted) == feature_ID])
@@ -39,7 +36,6 @@ data_feature <- function(feature_ID){
 }
 get_feature <- data_feature("TE027")
 
-setwd("/Users/neshcheret/Documents/GitHub/articles/stability")
 pdf(file="asr-te027.pdf", width = 6, height = 8)
 #nodelabels(node = c(100,62,78,77,89),col=pies, bg=get_feature$V1,pch=21,cex = 1)
 co <- c("black", "white")

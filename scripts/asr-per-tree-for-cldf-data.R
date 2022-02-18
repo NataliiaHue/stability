@@ -52,7 +52,7 @@ add_outgroup_to_tree <- function(tree, tipname="ROOT"){
 
 
 # Read in coded values
-values <- read_csv("cldf/values.csv")
+values <- read_csv("./hueblerstability/cldf/values.csv")
 # values <- read_csv("https://raw.githubusercontent.com/cldf-datasets/hueblerstability/main/cldf/values.csv")
 
 
@@ -97,7 +97,7 @@ data[is.na(data$value),]$value <- '-'
 
 # read in the phylogeny
 
-trees <- read.nexus("beast/stability_covarion_relaxed.1000.trees")
+trees <- read.nexus("./stability/beast/stability_covarion_relaxed.1000.trees")
 # trees <- read.nexus("https://raw.githubusercontent.com/NataliiaHue/stability/main/beast/stability_covarion_relaxed.1000.trees")
 
 cat(paste("Working on tree", treeid, "\n"))
