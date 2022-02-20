@@ -5,7 +5,7 @@ library(maptools)
 library(scales)  #for transparency
 
 ############# import data for points and text #############
-languages<-read.csv("./stability/languages_map.csv",sep=";")
+languages<-read.csv("./stability/data/languages_map.csv",sep=";")
 
 pdf(file="languages-map.pdf", width = 11, height=8)
 
