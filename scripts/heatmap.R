@@ -4,10 +4,10 @@ library(ggplot2)
 library(viridis)
 library(patchwork)
 
-asr_states_oct29 <- lapply(list.files('asr_29_oct', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
+asr_states<- lapply(list.files('./stability/asr', 'asr_states.*.csv', full.names=TRUE), read_csv) %>% bind_rows()
 
 # select a model
-df_states <- asr_states_oct29[asr_states_oct29$Model != 'ARD', ]
+df_states <- asr_states[asr_states$Model != 'ARD', ]
 
 # read in features with short names
 categories <- read_tsv("./hueblerstability/etc/features_with_categories.tsv")

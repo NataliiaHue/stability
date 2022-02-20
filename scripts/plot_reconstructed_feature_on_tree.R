@@ -1,7 +1,7 @@
 library(ape) # for reading in nexus files
 
 data <- read.csv(
-  "./all_languages_data_categories_full_names.csv",
+  "./stability/data/all_languages_data_categories_full_names.csv",
   sep = ";",
   strip.white = TRUE,
   na.strings = c("?", "-"),
@@ -28,7 +28,7 @@ data <- as.data.frame(data)
 data_sorted <- data[mcct.tree$tip.label,]
 
 # read in the tree
-mcct.tree<-read.nexus("./beast/stability_covarion_relaxed.mcct_renamed.trees")
+mcct.tree<-read.nexus("./stability/beast/stability_covarion_relaxed.mcct_renamed.trees")
 
 data_feature <- function(feature_ID){
   data_frame <- cbind(data_sorted$V1, data_sorted[, colnames(data_sorted) == feature_ID])
