@@ -13,6 +13,8 @@ Files necessary to construct a glottolog classification tree (for instructions, 
 Scripts necessary for running the analysis and evaluating the results (for instructions, see the readme inside)
 ## plots
 Plots produced by the scripts
+## results
+Results as csv files
 ## cluster
 Files necessary to run the analysis on the cluster
 ## data
