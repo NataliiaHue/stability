@@ -18,4 +18,4 @@ Results as csv files
 ## cluster
 Files necessary to run the analysis on the cluster
 ## data
-Complementary data (for main data, see [hueblerstability-cldf](https://github.com/cldf-datasets/hueblerstability)
+Complementary data (for main data, see [hueblerstability-cldf](https://github.com/cldf-datasets/hueblerstability))
