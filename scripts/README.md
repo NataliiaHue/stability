@@ -1,35 +1,31 @@
-# Making a glottolog classification tree.
+# Running the analysis and exploring the results
 
+## asr-per-tree-for-cldf-data.R
 
-## Step 1: Install python libraries:
+Run the ancestral state reconstruciton analysis: rates and states.
 
-```shell
-pip install -r requirements.txt
-```
+## d_for_cldf_data.R
 
-## Step 2: Create languages.txt file:
+Run the analysis on phylogenetic signal as D.
 
-You need a text file called `languages.txt` that lists, one per line, the glottocodes of the languages you want:
+## collect.R
 
-```
-aaaa1234
-bbbb1234
-```
+Collect the results on D, rates and states into three dataframes
 
-## Step 3:  Create any overrides:
+## explore_results.R
 
-If you want to override any of the classifications in glottolog then you need to add these
-to a file called `overrides.txt`. Leave this file blank if you don't. Otherwise you need
-something that looks like this:
+Create a table with summary statistics for D, rates and states.
+Create all plots used in the article, except for the heatmap, the plot of the reconstructed feature and the map.
+For further info, see the contents of the script.
 
-```
-khal1270	Turkic, Common Turkic
-```
+## heatmap.R
 
-## Step 4: Run make_tree.py:
+Create a heatmap of the ancestral states per language family.
 
-```shell
-python make_tree.py --override overrides.txt languages.txt languages.trees
-````
+## map.R
 
-... and your tree will now be in languages.trees
+Create a map of the geographical distribution of the languages in the sample.
+
+## plot_reconstructed_feature_on_tree.R
+
+Create a plot with the reconstructed states for one feature on the tree.
