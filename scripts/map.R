@@ -7,7 +7,7 @@ library(scales)  #for transparency
 ############# import data for points and text #############
 languages<-read.csv("./stability/data/languages_map.csv",sep=";")
 
-pdf(file="languages-map.pdf", width = 11, height=8)
+pdf(file="./stability/plots/languages-map.pdf", width = 11, height=8)
 
 #############  plot empty basic map ############# 
 par(mar=c(0,0,0,0))

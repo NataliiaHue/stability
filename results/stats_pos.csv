@@ -1,0 +1,11 @@
+PoS & MedianRateGain & MedianRateLoss & MedianD
+adjective & -0.35 & 0.08 & 0.39
+article & -0.45 & 0.92 & 0.68
+demonstrative & -0.3 & 0.61 & 0.56
+not assignable & -1.05 & -0.43 & -0.08
+noun & -10 & -1 & 0.15
+noun/pronoun & -0.74 & -0.77 & -0.16
+other & -10 & -10 & 0.51
+particle & -0.58 & 0.62 & 0.94
+pronoun & -10 & -0.85 & -0.27
+verb & -0.7 & -0.59 & 0.11
