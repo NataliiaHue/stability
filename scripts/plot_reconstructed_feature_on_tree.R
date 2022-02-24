@@ -36,7 +36,7 @@ data_feature <- function(feature_ID){
 }
 get_feature <- data_feature("TE027")
 
-pdf(file="asr-te027.pdf", width = 6, height = 8)
+pdf(file="./stability/plots/asr-te027.pdf", width = 6, height = 8)
 #nodelabels(node = c(100,62,78,77,89),col=pies, bg=get_feature$V1,pch=21,cex = 1)
 co <- c("black", "white")
 

@@ -6,14 +6,14 @@ library(tidyverse) # for data restructuring
 library(readr)
 library(beanplot)
 
-# This scripts needs the following data:
+# This script needs the following data:
 # - results: d, rates, states
 # - values from raw cldf
 # - categories from etc cld
 
 # The feature set in categories represents the final version of the "informative" features (not absent across the data set)
 # The analysis was run for the feature set in the categories file
-# match the raw values with categoriea and remove all features NOT present in categories
+# match the raw values with categories and remove all features NOT present in categories
 
 # Interpreting D:
 # > 1 overdispersed
@@ -134,7 +134,7 @@ stats <- data.frame(
     p1_japonic = sapply(features, function(f) round(mean(df_states[df_states$Feature == f & df_states$Clade == "Japonic", 'p1']), digits = 2))
    )
 
-write.table(stats,"SI_summary_table_Oct_29.csv", sep = "\t", row.names=FALSE, quote = TRUE)
+write.table(stats,"./stability/results/SI_summary_table.csv", sep = "\t", row.names=FALSE, quote = TRUE)
 
 # Check if there are uninformative features with all absent
 stats[stats$Present==0,]
@@ -171,7 +171,7 @@ stats_esm_d <- stats_with_log10 %>%
   select(Values, Present, Median_D, SD_D)
 
 stats_esm_rates <- stats_with_log10 %>%
-  select(er_log10, er_log10_sd, q10_log10, SD_rate_q10, q01_log10, SD_rate_q01)
+  select(er_log10, er_log10_sd, q10_log10, q10_log10_sd, q01_log10, q01_log10_sd)
 
 stats_esm_states <- stats_with_log10 %>%
   select(p1_turkic,  p1_mongolic, p1_tungusic, p1_koreanic, p1_japonic)
@@ -181,9 +181,9 @@ stats_esm_rates <- as.data.frame(stats_esm_rates)
 stats_esm_states <- as.data.frame(stats_esm_states)
 
 # Write table for ESM
-write.table(stats_esm_d,"stats_esm_d.csv", sep = " & ", quote = FALSE)
-write.table(stats_esm_rates,"stats_esm_rates.csv", sep = " & ", quote = FALSE)
-write.table(stats_esm_states,"stats_esm_states.csv", sep = " & ", quote = FALSE)
+write.table(stats_esm_d,"./stability/results/stats_esm_d.csv", sep = " & ", quote = FALSE)
+write.table(stats_esm_rates,"./stability/results/stats_esm_rates.csv", sep = " & ", quote = FALSE)
+write.table(stats_esm_states,"./stability/results/stats_esm_states.csv", sep = " & ", quote = FALSE)
 
 # Set theme_classic() as default for all plots
 theme_set(theme_classic())
@@ -205,7 +205,7 @@ h3 <- ggplot(df_rates, aes(q10)) +
   xlab('Rate of feature loss (1 -> 0)')
 h3
 
-ggsave("histograms.pdf", (h1 | h2 | h3), height=5, width=12)
+ggsave("./stability/plots/histograms.pdf", (h1 | h2 | h3), height=5, width=12)
 
 ##### Present #####
 
@@ -248,7 +248,7 @@ present_q01 <- ggplot(stats_no_inf, aes(x = Present, y = Median_rate_q01, color 
   ylab('Rate of feature gain') +
   scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue")
 
-ggsave("present.pdf", (present_d | present_q10 | present_q01), height=2, width=8)
+ggsave("./stability/plots/present.pdf", (present_d | present_q10 | present_q01), height=2, width=8)
 
 ##### Missing data ##### 
 
@@ -279,7 +279,7 @@ missing_q01 <- ggplot(stats_no_inf, aes(x = Proportion_missing, y = Median_rate_
   scale_color_gradient('Amount of Data', low = "tomato", high = "steelblue")
 missing_q01
 
-ggsave("missing-data.pdf", (missing_d | missing_q10 | missing_q01), height=2, width=8)
+ggsave("./stability/plots/missing-data.pdf", (missing_d | missing_q10 | missing_q01), height=2, width=8)
 
 cor_d_missing <-cor.test(stats_no_inf$Proportion_missing, stats_no_inf$Median_D, method="kendall")
 cor_d_missing # 0.06
@@ -335,7 +335,7 @@ f_3 <- ggplot(stats_no_inf, aes(x = Median_D, fill = Function)) +
   facet_grid("Function")
 f_3
 
-ggsave("facets-function.pdf", (f_1 | f_2 | f_3 ),  height = 7, width = 8)
+ggsave("./stability/plots/facets-function.pdf", (f_1 | f_2 | f_3 ),  height = 7, width = 8)
 
 # Level
 
@@ -369,7 +369,7 @@ f_6 <- ggplot(stats_no_inf, aes(x = Median_D, fill = llevels)) +
   facet_grid(factor(Level, levels = level_levels)~.)
 f_6
 
-ggsave("facets-level.pdf", (f_4 | f_5 | f_6 ),  height = 3, width = 8)
+ggsave("./stability/plots/facets-level.pdf", (f_4 | f_5 | f_6 ),  height = 3, width = 8)
 
 # PoS
 
@@ -400,7 +400,7 @@ f_9 <- ggplot(stats_no_inf, aes(x = Median_D, fill = PoS)) +
   facet_grid("PoS")
 f_9
 
-ggsave("facets-pos.pdf", (f_7 | f_8 | f_9 ),  height = 5, width = 8)
+ggsave("./stability/plots/facets-pos.pdf", (f_7 | f_8 | f_9 ),  height = 5, width = 8)
 
 
 ###### Ridgeplots for phylogenetic signal and rate ######################
@@ -428,7 +428,7 @@ p_d <- ggplot(df_d_feature_short, aes(x = D, y = reorder(Feature_short, D), fill
   xlim(-5, 5) +
   guides(fill="none")
 
-ggsave('ridgeplot-D.pdf', height=20, width=10)
+ggsave("./stability/plots/ridgeplot-D.pdf", height=20, width=10)
 
 # delete rows with infinite values (intrudoced through log10 transformation)
 #df_rates <- df_rates[!df_rates$Log10_q01==(-Inf),]
@@ -452,7 +452,7 @@ p_rate_01 <- ggplot(df_rates_feature_short, aes(x = log10(q01), y = reorder(Feat
   guides(fill="none") +
   xlab("Log10 0-1 transition rate (feature gain)")
 p_rate_01
-ggsave('ridgeplot-q01.pdf', height=20, width=10)
+ggsave("./stability/plots/ridgeplot-q01.pdf", height=20, width=10)
 
 p_rate_10 <- ggplot(df_rates_feature_short, aes(x = log10(q10), y = reorder(Feature_short, log10(q10)), fill=..x..)) +
   geom_density_ridges_gradient(rel_min_height=0.01, scale=2) +
@@ -462,7 +462,7 @@ p_rate_10 <- ggplot(df_rates_feature_short, aes(x = log10(q10), y = reorder(Feat
   guides(fill="none") +
   xlab("1-0 transition rate (feature loss)")
 p_rate_10
-ggsave('ridgeplot-q10.pdf', height=20, width=10)
+ggsave("./stability/plots/ridgeplot-q10.pdf", height=20, width=10)
 
 
 ###### Calculate and plot correlations ###### 
@@ -477,7 +477,7 @@ corr_q10 <- cor.test(median_d,rate_loss, method="kendall")
 corr_q10 # 0.507632 
 # correlation between D and 01 transition rate
 corr_q01 <- cor.test(median_d,rate_gain, method="kendall")
-corr_q01 # 0.4965682 
+corr_q01 # 0.4965682
 
 # plot the correlation between phylogenetic signal and q10 transition rate
 
@@ -494,30 +494,29 @@ stats_with_log10_infinity_q01 <- stats_with_log10 %>%
 ph_df_rates_q10 <- ggplot(stats_with_log10_filter,aes(q10_log10, Median_D, color=Present)) +
   geom_point() +
   theme_classic() +
-  geom_smooth(method='lm', formula= y~x) +
+  #geom_smooth(method='lm', formula= y~x) +
   annotate(geom = "text", x = 1, y = 2, label = paste("tau = ",round(corr_q10$estimate, digits = 2))) +
   xlab("Log10 rate (transition from 1 to 0, feature loss)") +
   ylab("Median (D)")
 ph_df_rates_q10
 
 # plot the correlation between phylogenetic signal and q01 transition rate
-round(corr_q01$estimate, digits = 2)
 ph_df_rates_q01 <- ggplot(stats_with_log10_filter,aes(q01_log10,Median_D, color=Present)) +
   geom_point() +
   theme_classic() +
-  geom_smooth(method='lm', formula= y~x) +
+  #geom_smooth(method='lm', formula= y~x) +
   annotate(geom="text", x = 1, y = 2.5, label = paste("tau = ",round(corr_q01$estimate, digits = 2))) +
   xlab("Log10 rate (transition from 0 to 1, feature gain)") +
   ylab("Median (D)")
 ph_df_rates_q01
 
-ggsave("correlation_no_inf_filtered.pdf", ph_df_rates_q10 / ph_df_rates_q01, height=5,width=5)
+ggsave("./stability/plots/correlation_no_inf_filtered.pdf", ph_df_rates_q10 / ph_df_rates_q01, height=5,width=5)
 
 # plot with rates near zero (before log10 transformation)
 rate_q10_zero_d <- ggplot(stats_with_log10_infinity_q10,aes(Median_D)) +
   geom_histogram(binwidth = 0.5) +
   theme_classic() +
-  ylab("Log10 rate (feature loss)") +
+  ylab("Count") +
   xlab("Median (D)")
 
 rate_q10_zero_d
@@ -525,12 +524,12 @@ rate_q10_zero_d
 rate_q01_zero_d <- ggplot(stats_with_log10_infinity_q01,aes(Median_D)) +
   geom_histogram(binwidth = 0.5) +
   theme_classic() +
-  ylab("Log10 rate (feature gain)") +
+  ylab("Count") +
   xlab("Median (D)")
 
 rate_q01_zero_d
 
-ggsave("quick-histograms-rates-zero.pdf", rate_q10_zero_d / rate_q01_zero_d, height=5,width=5)
+ggsave("./stability/plots/quick-histograms-rates-zero.pdf", rate_q10_zero_d / rate_q01_zero_d, height=5,width=5)
 
 rate_q10_zero_d_present <- ggplot(stats_with_log10_infinity_q10,aes(Median_D, Present, color = Present)) +
   geom_point() +
@@ -608,7 +607,7 @@ rate_statistics<- data.frame(
 
 rownames(rate_statistics) <- c("Slow", "Medium", "Fast")
 
-write.table(rate_statistics,"rate_statistics.csv", sep = " & ", quote = FALSE)
+write.table(rate_statistics,"./stability/results/rate_statistics.csv", sep = " & ", quote = FALSE)
 
 ######  basic stats for the results ###### 
 
@@ -629,7 +628,7 @@ basic_statistics_log10 <- data.frame(
 
 rownames(basic_statistics_log10) <- c("D", "Rate of loss", "Rate of gain","Rate of loss (log10 transformed)", "Rate of gain (log10 transformed)")
 
-write.table(basic_statistics_log10,"basic_statistics_log10.csv", sep = " & ", quote = FALSE)
+write.table(basic_statistics_log10,"./stability/results/basic_statistics_log10.csv", sep = " & ", quote = FALSE)
 
 ###### Stable features ###### 
 
@@ -666,7 +665,7 @@ stats_level <- stats_no_inf %>%
             MedianD = round(median(Median_D), digits = 2))
 
 stats_level
-write.table(stats_level,"stats_level.csv", sep = " & ", quote = FALSE, row.names = FALSE)
+write.table(stats_level,"./stability/results/stats_level.csv", sep = " & ", quote = FALSE, row.names = FALSE)
 
 stats_function <- stats_no_inf %>%
   mutate(Median_rate_q10 = log10(Median_rate_q10), Median_rate_q01 = log10(Median_rate_q01)) %>%
@@ -676,7 +675,7 @@ stats_function <- stats_no_inf %>%
             MedianD = round(median(Median_D), digits = 2))
 
 stats_function
-write.table(stats_function,"stats_function.csv", sep = " & ", quote = FALSE, row.names = FALSE)
+write.table(stats_function,"./stability/results/stats_function.csv", sep = " & ", quote = FALSE, row.names = FALSE)
 
 stats_pos <- stats_no_inf %>%
   mutate(Median_rate_q10 = log10(Median_rate_q10), Median_rate_q01 = log10(Median_rate_q01)) %>%
@@ -686,7 +685,7 @@ stats_pos <- stats_no_inf %>%
             MedianD = round(median(Median_D), digits = 2))
 
 stats_pos
-write.table(stats_pos,"stats_pos.csv", sep = " & ", quote = FALSE, row.names = FALSE)
+write.table(stats_pos,"./stability/results/stats_pos.csv", sep = " & ", quote = FALSE, row.names = FALSE)
 
 ###### Ancestral state reconstruction###### 
 
@@ -702,7 +701,7 @@ h13 <- ggplot(stats, aes(x = p1_japonic)) + geom_histogram(binwidth = 0.1) + xla
 
 h14 <- ggplot(stats, aes(x = p1_koreanic)) + geom_histogram(binwidth = 0.1) + xlab('Koreanic')+ theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank()) + expand_limits(y = 42) + geom_vline(xintercept = 0.5, col = "tomato")
 
-ggsave("histograms-p1.pdf",(h10 | h11 | h12 | h13 | h14),  height=3, width=9)  # needs `patchwork` library
+ggsave("./stability/plots/histograms-p1.pdf",(h10 | h11 | h12 | h13 | h14),  height=3, width=9)  # needs `patchwork` library
 
 ##### Well-reconstructable features ##### 
 # Which features can be reconstructed to the proto-language level with 95% probability?
@@ -823,7 +822,7 @@ overlaps<- data.frame(
 
 rownames(overlaps) <- c("Turkic", "Mongolic", "Tungusic", "Koreanic", "Japonic")
 
-write.table(overlaps,"overlaps.csv", sep = " & ", quote = FALSE)
+write.table(overlaps,"./stability/results/overlaps.csv", sep = " & ", quote = FALSE)
 
 ##### Facets with ASR ##### 
 
@@ -881,5 +880,5 @@ asr_level <- ggplot(stats_asr_level, aes(x = proportion, y = Level, fill = Level
 theme(axis.title.y = element_blank(), axis.title.x = element_blank(), strip.text.y.right = element_text(angle = 0,  hjust = 0), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.line = element_line(colour = "grey")) +
   guides(fill="none")
 
-ggsave("asr-categories-normalized.pdf",(asr_function | asr_pos | asr_level),  height = 10, width = 8)  # needs `patchwork` library
+ggsave("./stability/plots/asr-categories-normalized.pdf",(asr_function | asr_pos | asr_level),  height = 10, width = 8)  # needs `patchwork` library
 
