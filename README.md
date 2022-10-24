@@ -1,6 +1,7 @@
 # Stability 
 
-This repository contains the code and other materials for the article on the stability of structural features (phylogenetic signal and rate).
+This repository contains the code and other materials for the article "Phylogenetic signal and rate of evolutionary change in language structures" [published](https://doi.org/10.1098/rsos.211252) in the Royal Society Open Science.
+
 ## asr
 Results of the ancestral state reconstruction.
 ## beast
